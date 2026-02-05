@@ -30,3 +30,7 @@ SELECT * FROM rezisoor;
 
 Insert into film(filmNimetus,rezisoorID,pikkus,v_aasta)
 values('Rapuntsel',4,120,2021)
+
+
+
+
