@@ -1,0 +1,89 @@
+CREATE DATABASE filmRud;
+use filmRud;
+
+--tabeli rezisoor loomine
+
+CREATE TABLE rezisoor(
+rezisoorID int PRIMARY KEY identity(1,1),
+eesnimi varchar(20),
+perenimi varchar(20) UNIQUE,
+synniaasta int);
+select * from rezisoor;
+--tabeli täitmine 
+INSERT INTO rezisoor(eesnimi,perenimi,synniaasta)
+VALUES('James','Cemeron',1987),
+('Clint','Eastwood',1957),
+('David','Lunch',1937),
+('Margus','Paju',1967);
+
+--tabeli Film Loomine
+CREATE TABLE film(
+filmID int PRIMARY KEY identity(1,1),
+filmNimetus varchar(100),
+pikkus int,
+rezisoorID int,
+FOREIGN KEY (rezisoorID) REFERENCES rezisoor(rezisoorID),
+v_aasta int CHECK(v_aasta<2027)
+);
+SELECT * FROM film;
+SELECT * FROM rezisoor;
+
+Insert into film(filmNimetus,rezisoorID,pikkus,v_aasta)
+values('Rapuntsel',4,120,2021)
+
+--tabel zanr
+
+
+CREATE TABLE zanr(
+zanrID int PRIMARY KEY identity(1,1),
+zanrNimetus varchar(50) UNIQUE,
+kirjeldus TEXT)
+
+INSERT INTO zanr(zanrNimetus,kirjeldus)
+VALUES ('komöödia','on põnev film')
+
+SELECT * FROM zanr;
+
+--tabeli struktuuri muutmine - uue veergu lisamine 
+ALTER TABLE film ADD zanrID int;
+select * from film;
+
+--FK lisamine
+ALTER TABLE film ADD CONSTRAINT fk_zanr 
+FOREIGN KEY (zanrID) references zanr(zanrId);
+
+--tabeli uuendamine 
+UPDATE film SET zanrID=2 WHERE filmID=2
+UPDATE film SET zanrID=1 WHERE filmID>=3
+
+
+
+
+
+--tabel tootja
+CREATE TABLE tootja(
+tootjaID int PRIMARY KEY identity(1,1),
+tootjaNimi varchar(50) UNIQUE,
+asukoht Text);
+SELECT * FROM tootja;
+
+INSERT INTO tootja (tootjaNimi, asukoht)
+VALUES('Cemeron', 'Estonia'),
+('Eastwood', 'Germany'),
+('Lunch', 'Japan'),
+('Paju', 'Spain');
+ 
+ --tabeli tootjaFilm
+
+CREATE TABLE tootjaFilm(
+tootjaFilm int PRIMARY KEY identity(1,1),
+tootjaID varchar(50) UNIQUE,
+filmID Text);
+SELECT * FROM tootjaFilm;
+
+
+INSERT INTO tootjaFilm (tootjaFilm,tootjaID,filmID)
+VALUES('Cemeron', 'Estonia'),
+('Eastwood', 'Germany'),
+('Lunch', 'Japan'),
+('Paju', 'Spain');
