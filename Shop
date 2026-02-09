@@ -1,0 +1,200 @@
+create database veebipoodRud;
+use veebipoodRud;
+--tabel categories
+CREATE TABLE categories(
+category_id int primary key identity(1,1),
+category_name varchar(30) unique);
+
+INSERT INTO categories(category_name)
+VALUES
+('T-särk'),
+('mantel'),
+('pusa'),
+('pintsak');
+
+SELECT * FROM categories;
+
+
+
+--tabel products
+CREATE TABLE products(
+product_id int PRIMARY KEY identity(1,1),
+product_name varchar(50) NOT NULL,
+brand_id int,
+category_id int,
+FOREIGN KEY (category_id) references categories(category_id),
+model_year int,
+list_price decimal(7,2));
+
+--tabel brands
+CREATE TABLE brands(
+brand_id int PRIMARY KEY identity(1,1),
+brand_name varchar(30) unique);
+INSERT INTO brands(brand_name)
+Values
+('Nike'),
+('Adidas'),
+('Zara'),
+('HM');
+
+
+
+
+ALTER TABLE products ADD CONSTRAINT fk_brand
+FOREIGN KEY (brand_id) references brands(brand_id);
+
+--Drop TABLE...
+--INSERT into brands...
+INSERT into products(
+product_name,brand_id,category_id,model_year,list_price)
+VALUES
+('Nike T-särk',1,1,2020,25.50),
+('Adidas Pusa',1,3,2020,25.50),
+('Zara Mantel',1,2,2020,25.50);
+
+
+SELECT * FROM brands;
+SELECT * FROM categories;
+SELECT * FROM products;
+SELECT * FROM stocks;
+SELECT * FROM categories;
+--tabel stock -- kaks primary key
+CREATE TABLE stocks(
+store_id int,
+product_id int,
+quantity int,
+PRIMARY KEY (store_id, product_id,quantity),
+foreign key (product_id) references products(product_id)
+);
+
+INSERT INTO stocks(store_id,product_id,quantity)
+VALUES
+(1,1,50),
+(1,2,30),
+(2,3,20);
+
+
+
+
+
+--tabel loomine stores
+CREATE TABLE stores(
+store_id int PRIMARY KEY identity(1,1),
+store_name varchar(50) NOT NULL,
+prohe varchar(20),
+email varchar(50),
+street varchar(50),
+city varchar(50),
+state varchar(50),
+zip_code varchar(10));
+SELECT * FROM stores;
+
+
+
+INSERT INTO stores (store_name, prohe, email, street, city, state, zip_code)
+VALUES
+('Tallinn Store', '5551234', 'tallinn@shop.ee', 'Pikk 1', 'Tallinn', 'Harjumaa', '10111'),
+('Tartu Store', '5555678', 'tartu@shop.ee', 'Riia 5', 'Tartu', 'Tartumaa', '51010');
+
+
+--tabel loomine 
+CREATE TABLE staffs(
+staff_id int PRIMARY KEY IDENTITY(1,1),
+first_name varchar(50),
+last_name varchar(50),
+email varchar(50),
+phone varchar(20),
+active bit,
+store_id int,
+manager_id int,
+FOREIGN KEY (store_id) REFERENCES stores(store_id),
+FOREIGN KEY (manager_id) REFERENCES staffs(staff_id));
+
+
+INSERT INTO staffs (first_name, last_name, email, phone, active, store_id, manager_id)
+VALUES
+('Karl', 'Manager', 'karl@shop.ee', '5551111', 1, 1, NULL),
+('Anna', 'Worker', 'anna@shop.ee', '5552222', 1, 1, 1),
+('Peeter', 'Worker', 'peeter@shop.ee', '5553333', 1, 2, NULL);
+
+SELECT * FROM staffs
+
+
+
+
+--tabeli loomine
+CREATE TABLE customers(
+customer_id int PRIMARY KEY IDENTITY(1,1),
+first_name varchar(50),
+last_name varchar(50),
+phone varchar(20),
+email varchar(50),
+street varchar(50),
+city varchar(50),
+state varchar(50),
+zip_code varchar(10));
+
+
+INSERT INTO customers (first_name, last_name, phone, email, street, city, state, zip_code)
+VALUES
+('Mari', 'Tamm', '5550001', 'mari@email.ee', 'Kesk 10', 'Tallinn', 'Harjumaa', '10115'),
+('Jaan', 'Kask', '5550002', 'jaan@email.ee', 'Õuna 7', 'Tartu', 'Tartumaa', '51005');
+
+SELECT * FROM customers;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--tabeli loomine
+CREATE TABLE orders(
+order_id int PRIMARY KEY IDENTITY(1,1),
+customer_id int,
+order_status int,
+order_date date,
+required_date date,
+shipped_date date,
+store_id int,
+staff_id int,
+FOREIGN KEY (customer_id) REFERENCES customers(customer_id),
+FOREIGN KEY (store_id) REFERENCES stores(store_id),
+FOREIGN KEY (staff_id) REFERENCES staffs(staff_id));
+
+INSERT INTO orders (customer_id, order_status, order_date, required_date, shipped_date, store_id, staff_id)
+VALUES
+(1, 1, '2026-02-09', '2026-02-12', '2026-02-10', 1, 1),
+(2, 1, '2026-02-08', '2026-02-11', '2026-02-09', 2, 3);
+
+
+SELECT * FROM orders;
+
+
+
+
+
+
+
+
+
+
+
+--tabeli loomine 
