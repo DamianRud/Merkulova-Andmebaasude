@@ -1,0 +1,44 @@
+ CREATE DATABASE RUD;
+ use RUD;
+
+
+CREATE TABLE City(
+ID int NOT NULL,
+cityName varchar(30));
+SELECT * FROM City;
+
+
+
+
+--PK Lisamine
+ALTER TABLE City
+ADD CONSTRAINT pk_ID PRIMARY KEY(ID);
+
+--Unique Lisamine
+ALTER TABLE City
+ADD CONSTRAINT cityName_unique UNIQUE(cityName);
+--andmete lisamine
+INSERT INTO City(ID,cityName)
+Values(2,'Tartu');
+
+select * from  city;
+
+CREATE TABLE Country(
+ID int NOT NULL primary key identity(1,1),
+countryName varchar(30),
+Capital int);
+
+SELECT * FROM City;
+--FK Lisamine
+ALTER TABLE Country
+ADD CONSTRAINT fk_city FOREIGN KEY(Capital)
+REFERENCES City(ID);
+
+INSERT INTO Country(countryName,Capital)
+Values('Eesti',1);
+
+SELECT * FROM City
+SELECT * FROM Country
+
+EXEC sp_help Country;
+--näitab süsteemsed info tabelist;
