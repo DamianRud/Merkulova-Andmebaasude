@@ -1,0 +1,146 @@
+CREATE DATABASE Damian;
+use Damian;
+
+
+CREATE TABLE SpordiklubiLiikmed (
+    LiikmeID INT PRIMARY KEY,
+    Eesnimi VARCHAR(50),
+    Perekonnanimi VARCHAR(50)
+);
+
+
+INSERT INTO SpordiklubiLiikmed (LiikmeID, Eesnimi, Perekonnanimi) 
+VALUES
+(1, 'Karl', 'Tamm'),
+(2, 'Mari', 'Kask'),
+(3, 'Jüri', 'Ratas'),
+(4, 'Liis', 'Lepik'),
+(5, 'Andres', 'Mägi');
+
+SELECT * FROM SpordiklubiLiikmed;
+
+
+
+
+CREATE TABLE RiietusruumiKapid (
+KapiNumber INT PRIMARY KEY,
+LiikmeID INT,
+FOREIGN KEY (LiikmeID) REFERENCES SpordiklubiLiikmed(LiikmeID)
+);
+
+
+
+INSERT INTO RiietusruumiKapid (KapiNumber, LiikmeID)
+VALUES
+(101, 1),
+(102, 2),
+(103, 3),
+(104, 4),
+(105, 5);
+
+SELECT *  FROM RiietusruumiKapid;
+
+
+
+
+
+CREATE TABLE Kasutajad (
+KasutajaID INT PRIMARY KEY,
+Epost VARCHAR(100) UNIQUE
+);
+
+
+
+
+INSERT INTO Kasutajad (KasutajaID, Epost)
+VALUES
+(1, 'karl.tamm@email.ee'),
+(2, 'mari.kask@email.ee'),
+(3, 'jyri.ratas@email.ee'),
+(4, 'liis.lepik@email.ee'),
+(5, 'andres.magi@email.ee');
+
+select * from Kasutajad;
+
+
+
+
+CREATE TABLE Riiulid (
+RiiuliKood CHAR(5) PRIMARY KEY,
+Asukoht VARCHAR(50)
+);
+
+
+INSERT INTO Riiulid (RiiuliKood, Asukoht)
+VALUES
+('A-001', 'Saal 1, vasak sein'),
+('A-002', 'Saal 1, parem sein'),
+('B-001', 'Treeningala, lääneosa'),
+('B-002', 'Treeningala, idaosa'),
+('C-001', 'Vastuvõtt, tagaruum');
+
+Select * FROM Riiulid;
+
+
+
+
+
+
+
+CREATE TABLE Visiidid (
+ArstiID INT,
+PatsiendiID INT,
+VisiidiAeg DATETIME,
+PRIMARY KEY (ArstiID, PatsiendiID, VisiidiAeg)
+);
+
+
+
+INSERT INTO Visiidid (ArstiID, PatsiendiID, VisiidiAeg)
+VALUES
+(1, 10, '2024-05-20 09:00:00'),
+(1, 11, '2024-05-20 10:00:00'),
+(2, 10, '2024-05-20 11:30:00'),
+(3, 12, '2024-05-21 14:15:00'),
+(2, 13, '2024-05-21 16:00:00');
+
+
+Select * from Visiidid;
+
+
+
+
+CREATE TABLE ProjektiMeeskond (
+TootajaID INT, 
+ProjektiID INT, 
+PRIMARY KEY (TootajaID, ProjektiID)
+);
+
+
+INSERT INTO ProjektiMeeskond (TootajaID, ProjektiID)
+VALUES
+(1, 101), 
+(1, 102),
+(2, 101), 
+(3, 103),
+(4, 101);
+
+
+SELECT * FROM ProjektiMeeskond;
+
+
+
+CREATE TABLE Soidukid (
+VIN_kood VARCHAR(20) PRIMARY KEY, 
+Reg_number VARCHAR(10) UNIQUE      
+);
+
+INSERT INTO Soidukid (VIN_kood, Reg_number) 
+VALUES
+('SN1ABC12345678901', '123 ABC'),
+('SN2DEF23456789012', '456 DEF'),
+('SN3GHI34567890123', '789 GHI'),
+('SN4JKL45678901234', '012 JKL'),
+('SN5MNO56789012345', '345 MNO');
+
+SELECT * FROM Soidukid;
