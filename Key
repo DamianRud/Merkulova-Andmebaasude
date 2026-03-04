@@ -1,0 +1,117 @@
+CREATE DATABASE Tar;
+use Tar;
+
+
+
+
+
+
+CREATE TABLE Departments (
+    DepartmentID INT PRIMARY KEY,
+    DepartmentName VARCHAR(50)
+);
+
+CREATE TABLE Employees (
+    EmployeeID INT PRIMARY KEY,
+    Name VARCHAR(50),
+    Position VARCHAR(50),
+    DepartmentID INT,
+    FOREIGN KEY (DepartmentID) REFERENCES Departments(DepartmentID)
+);
+
+CREATE TABLE Users (
+    UserID INT PRIMARY KEY,
+    Username VARCHAR(50),
+    Email VARCHAR(100) UNIQUE
+);
+
+CREATE TABLE Books (
+    ISBN VARCHAR(20) PRIMARY KEY,
+    Title VARCHAR(100)
+);
+
+CREATE TABLE StudentCourses (
+    StudentID INT,
+    CourseID INT,
+    Grade INT,
+    PRIMARY KEY (StudentID, CourseID)
+);
+
+CREATE TABLE OrderDetails (
+    OrderID INT,
+    ProductID INT,
+    Quantity INT,
+    PRIMARY KEY (OrderID, ProductID)
+);
+
+CREATE TABLE Students (
+    StudentID INT PRIMARY KEY,
+    Email VARCHAR(100) UNIQUE,
+    Name VARCHAR(50)
+);
+
+CREATE TABLE Cars (
+    VIN VARCHAR(50) PRIMARY KEY,
+    LicensePlate VARCHAR(20) UNIQUE,
+    Owner VARCHAR(50)
+);
+
+
+
+
+
+
+
+
+
+
+
+INSERT INTO Departments (DepartmentID, DepartmentName) VALUES 
+(1, 'IT'),
+(2, 'HR'),
+(3, 'Sales');
+
+INSERT INTO Employees (EmployeeID, Name, Position, DepartmentID) VALUES 
+(101, 'Alice Smith', 'Developer', 1),
+(102, 'Bob Johnson', 'Recruiter', 2),
+(103, 'Charlie Brown', 'Manager', 3);
+
+INSERT INTO Users (UserID, Username, Email) VALUES 
+(1, 'admin', 'admin@example.com'),
+(2, 'jdoe', 'john.doe@test.com'),
+(3, 'msara', 'sara@web.ee');
+
+INSERT INTO Books (ISBN, Title) VALUES 
+('978-3-16-148410-0', 'SQL for Beginners'),
+('978-0-596-52068-7', 'Database Design'),
+('978-1-491-95446-1', 'Mastering PostgreSQL');
+
+INSERT INTO StudentCourses (StudentID, CourseID, Grade) VALUES 
+(10, 501, 5),
+(10, 502, 4),
+(11, 501, 3);
+
+INSERT INTO OrderDetails (OrderID, ProductID, Quantity) VALUES 
+(1001, 201, 2),
+(1001, 202, 5),
+(1002, 201, 1);
+
+INSERT INTO Students (StudentID, Email, Name) VALUES 
+(1, 'kevin@school.edu', 'Kevin Miller'),
+(2, 'anna@school.edu', 'Anna Kont'),
+(3, 'mark@school.edu', 'Mark Tamme');
+
+INSERT INTO Cars (VIN, LicensePlate, Owner) VALUES 
+('ABC123456789XYZ', '123 ABC', 'Jüri Ratas'),
+('DEF987654321QWE', '555 TOY', 'Mari Maasikas'),
+('GHI456123789RTY', '001 BOSS', 'Kalle Kask');
+
+
+SELECT * FROM Departments;
+SELECT * FROM Employees;
+SELECT * FROM Users;
+SELECT * FROM Books;
+SELECT * FROM StudentCourses;
+SELECT * FROM OrderDetails;
+SELECT * FROM Students;
+SELECT * FROM Cars;
