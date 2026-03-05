@@ -1,0 +1,198 @@
+CREATE DATABASE Rud;
+use Rud;
+
+CREATE TABLE telefon (
+telefonID INT PRIMARY KEY,
+tootja VARCHAR(50)not null,
+telefonMudel VARCHAR(50),
+hind money,
+v_aastane int,
+Osystem VARCHAR(50)
+);
+
+
+select * from telefon;
+
+ALTER TABLE telefon ALTER COLUMN Osystem varchar(30);
+
+
+
+
+
+
+
+
+
+
+
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (1, 'Nokia', 'Nokia 3600 slide', 99.99, 1986, 'Feature phone');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (2, 'Spice', 'Spice Mi-495 Stellar Virtuoso', 49.99, 1998, 'Android 4.0');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (3, 'verykool', 'verykool s5007 Lotus Plus', 24.99, 2007, 'Android 5.1');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (4, 'XOLO', 'XOLO Q1100', 39.99, 1998, 'Android 4.3');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (5, 'ZTE', 'ZTE Zmax Pro', 4.29, 1997, 'Android 6.0');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (6, 'Plum', 'Plum Capacity', 49.99, 2000, 'Android 2.3');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (7, 'BLU', 'BLU Smart', 12.99, 2001, 'Feature phone');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (8, 'Honor', 'Honor 5X', 10.99, 1997, 'Android 5.1.1, up to 6.0.1, EMUI 4');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (9, 'Nokia', 'Nokia 8855', 45.99, 2007, 'Feature phone');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (10, 'Motorola', 'Motorola RAZR2 V9', 4.99, 2012, 'Feature phone');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (11, 'Orange', 'Orange Tahiti', 8.99, 2003, 'Android 3.2');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (12, 'Siemens', 'Siemens CX70 Emoty', 12.99, 2012, 'Feature phone');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (13, 'Philips', 'Philips W5510', 2.49, 1998, 'Android 4.1');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (14, 'Palm', 'Palm Treo 650', 2.99, 1993, 'Palm 5.4');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (15, 'verykool', 'verykool s401', 2.99, 2002, 'Android 4.2');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (16, 'alcatel', 'alcatel OT-113', 29.99, 1996, 'Feature phone');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (17, 'Sony', 'Sony Xperia J', 19.99, 1996, 'Android 4.0.4, up to 4.1.2');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (18, 'alcatel', 'alcatel OT-995', 3.79, 2004, 'Android 2.3, up to 4.0');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (19, 'Sonim', 'Sonim XP3.20 Quest Pro', 109.99, 2002, 'Feature phone');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (20, 'alcatel', 'alcatel 1v (2019)', 19.99, 1990, 'Android 9.0 Pie');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (21, 'Archos', 'Archos Diamond S', 1.49, 2012, 'Android 5.1.1');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (22, 'Motorola', 'Motorola EM35', 24.99, 2005, 'Linux / Java-based MOTOMAGX');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (23, 'Philips', 'Philips X712', 4.29, 2008, 'Feature phone');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (24, 'Apple', 'Apple Watch SE', 49.99, 1992, 'watchOS 7.0, up to 7.6');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (25, 'Motorola', 'Motorola Q 11', 19.99, 2001, 'Microsoft Windows Mobile 6.1 Standard');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (26, 'ZTE', 'ZTE Grand X4', 49.99, 2006, 'Android 6.0.1');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (27, 'LG', 'LG G350', 34.99, 1999, 'Feature phone');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (28, 'HTC', 'HTC EVO 3D', 5.99, 2012, 'Android 2.3, up to 4.0, Sense UI');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (29, 'Motorola', 'Motorola FIRE XT', 12.99, 2006, 'Android 2.3.4');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (30, 'Pantech', 'Pantech PG-8000', 22.99, 2006, 'Feature phone');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (31, 'Samsung', 'Samsung Z370', 19.99, 2005, 'Feature phone');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (32, 'Motorola', 'Motorola W375', 29.99, 2006, 'Feature phone');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (33, 'Vodafone', 'Vodafone 533', 14.99, 2009, 'Feature phone');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (34, 'Samsung', 'Samsung Galaxy Note20 Ultra 5G', 19.99, 2002, 'Android 10, up to Android 11, One UI 3.0');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (35, 'NEC', 'NEC N700', 79.99, 1998, 'Feature phone');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (36, 'Yezz', 'Yezz Ritmo 3 TV YZ433', 39.99, 1990, 'Feature phone');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (37, 'alcatel', 'alcatel OT-506', 3.99, 2007, 'Feature phone');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (38, 'Gionee', 'Gionee Elife E7 Mini', 1.99, 1997, 'Android 4.2.2, Amigo 2');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (39, 'LG', 'LG G Vista (CDMA)', 22.99, 2007, 'Android 4.4.2, up to 5.1.1');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (40, 'Nokia', 'Nokia C6-01', 4.89, 2007, 'Symbian^3, up to Nokia Belle OS');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (41, 'LG', 'LG S367', 5.49, 2007, 'Feature phone');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (42, 'LG', 'LG G2', 15.99, 1991, 'Android 4.2.2, up to 5.0.2');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (43, 'Micromax', 'Micromax X330', 109.99, 2003, 'Feature phone');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (44, 'Amoi', 'Amoi V810', 149.99, 2001, 'Feature phone');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (45, 'Samsung', 'Samsung A110', 1.49, 2010, 'Feature phone');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (46, 'LG', 'LG Leon', 44.99, 1994, 'Android 5.0.1');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (47, 'Gigabyte', 'Gigabyte GSmart S1205', 3.49, 2009, 'Microsoft Windows Mobile 6.5 Professional');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (48, 'Samsung', 'Samsung Galaxy Tab A 9.7 & S Pen', 6.49, 1994, 'Android 5.0');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (49, 'T-Mobile', 'T-Mobile Vairy Touch', 39.99, 1964, 'Feature phone');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (50, 'Samsung', 'Samsung Gear Live', 4.29, 2003, 'Android Wear OS');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (51, 'Motorola', 'Motorola Moto Z3', 22.99, 2010, 'Android 8.1, up to Android 9.0');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (52, 'LG', 'LG Harmony', 89.99, 1995, 'Android 7.0');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (53, 'Micromax', 'Micromax A100', 299.99, 2011, 'Android 4.0.3');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (54, 'alcatel', 'alcatel OT-306', 39.99, 2000, 'Feature phone');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (55, 'Samsung', 'Samsung E760', 3.29, 2006, 'Feature phone');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (56, 'Nokia', 'Nokia Lumia 710 T-Mobile', 3.99, 2006, 'Microsoft Windows Phone 7.5 Mango');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (57, 'Samsung', 'Samsung C3330 Champ 2', 29.99, 2008, 'Feature phone');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (58, 'Sony', 'Sony Xperia M4 Aqua Dual', 2.99, 2008, 'Android 5.0, up to 6.0');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (59, 'Samsung', 'Samsung R260 Chrono', 4.99, 2011, 'Feature phone');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (60, 'alcatel', 'alcatel OT-910', 24.99, 1985, 'Android 2.3');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (61, 'Samsung', 'Samsung Galaxy Tab 10.1 LTE I905', 29.99, 1991, 'Android 3.1');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (62, 'Huawei', 'Huawei Ascend P6', 7.99, 2004, 'Android 4.2.2, up to 4.4.2, EMUI 1.6');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (63, 'LG', 'LG Optimus Pad V900', 39.99, 2005, 'Android 3.0');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (64, 'Infinix', 'Infinix Note 5 Stylus', 2.49, 2001, 'Android 8.1, Android One');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (65, 'Siemens', 'Siemens SXG75', 5.29, 2005, 'Feature phone');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (66, 'Nokia', 'Nokia N81 8GB', 4.29, 2001, 'Symbian OS 9.2, Series 60 v3.1 UI');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (67, 'Gionee', 'Gionee Pioneer P1', 19.99, 1996, 'Android 2.3');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (68, 'Sony', 'Sony Ericsson Xperia Arc', 4.99, 2005, 'Android 2.3, up to 4.0');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (69, 'Lava', 'Lava Iris 470', 5.99, 1970, 'Android 4.4.2');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (70, 'Micromax', 'Micromax Canvas Juice 4 Q382', 6.99, 1992, 'Android 5.1');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (71, 'Micromax', 'Micromax Bolt A27', 3.99, 2000, 'Android 2.3');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (72, 'Siemens', 'Siemens ME75', 3.79, 1990, 'Feature phone');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (73, 'Meizu', 'Meizu M8c', 3.99, 1993, 'Android 7.0, Flyme UI');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (74, 'alcatel', 'alcatel Smart Tab 7', 2.99, 2009, 'Android 9.0');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (75, 'Apple', 'Apple iPad Pro 11 (2018)', 29.99, 1996, 'iOS 12, up to iPadOS 14.6');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (76, 'Maxon', 'Maxon MX-V30', 39.99, 1995, 'Feature phone');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (77, 'T-Mobile', 'T-Mobile Vairy Text', 22.99, 1986, 'Feature phone');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (78, 'alcatel', 'alcatel OT 835', 24.99, 2009, 'Feature phone');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (79, 'LG', 'LG KB770', 34.99, 2002, 'Feature phone');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (80, 'Karbonn', 'Karbonn A2+', 2.49, 1996, 'Android 4.0');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (81, 'Motorola', 'Motorola V295', 45.99, 1993, 'Feature phone');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (82, 'LG', 'LG A390', 3.99, 2008, 'Feature phone');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (83, 'Nokia', 'Nokia Lumia 638', 3.99, 1992, 'Microsoft Windows Phone 8.1');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (84, 'Acer', 'Acer Iconia Talk S', 14.99, 2006, 'Android 6.0');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (85, 'HTC', 'HTC First', 4.49, 2011, 'Android 4.1, Facebook Home UI');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (86, 'Infinix', 'Infinix Hot 10 Lite', 3.99, 1996, 'Android 10');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (87, 'Amazon', 'Amazon Kindle Fire HD (2013)', 4.29, 2013, 'Android OS');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (88, 'Samsung', 'Samsung Galaxy S5 (USA)', 4.49, 1986, 'Android 4.4.2, up to 5.0.1, TouchWiz UI');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (89, 'ZTE', 'ZTE Blade X3', 39.99, 2003, 'Android 5.1');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (90, 'Haier', 'Haier V160', 4.99, 1969, 'Feature phone');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (91, 'LG', 'LG C710 Aloha', 0.75, 1987, 'Android 2.1');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (92, 'Samsung', 'Samsung Z320i', 18.99, 2004, 'Feature phone');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (93, 'Infinix', 'Infinix Hot 9 Pro', 49.99, 1995, 'Android 10, XOS 6.0');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (94, 'Samsung', 'Samsung A886 Forever', 3.49, 1998, 'Feature phone');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (95, 'HTC', 'HTC Touch HD T8285', 19.99, 2011, 'Microsoft Windows Mobile 6.1 Professional');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (96, 'Asus', 'Asus Live G500TG', 29.99, 1963, 'Android 5.1');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (97, 'Nokia', 'Nokia T7', 3.29, 1990, 'Symbian^3, up to Nokia Belle OS');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (98, 'LG', 'LG G350', 3.29, 1987, 'Feature phone');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (99, 'Realme', 'Realme 3 Pro', 6.99, 1996, 'Android 9.0, planned upgrade to 10, ColorOS 6');
+insert into telefon (telefonID, tootja, telefonMudel, hind, v_aastane, OSystem) values (100, 'Amoi', 'Amoi CS6', 2.99, 2009, 'Feature phone');
+
+
+
+--SELECT Kuvab ainult 2 veergu tabelist
+SELECT tootja,telefonMudel AS mudel FROM telefon;
+ --Sorteerimine
+ --ASC kasvavas järjekorras
+ SELECT tootja,telefonMudel AS mudel,hind
+ FROM telefon
+ ORDER BY hind;
+ --DESC kahanevas järjekorras
+SELECT tootja,telefonMudel AS mudel,hind
+ FROM telefon
+ ORDER BY hind DESC;
+
+ --võrdlemine >,<,=,>=,<=
+ SELECT telefonMudel,hind
+ From telefon
+ WHERE hind >25 --leiab mudelid hinnaga suumer kui 25
+ ORDER by hind;
+ --Leia mudelid vahemikus 10-15 euro
+SELECT telefonMudel,hind
+From telefon
+WHERE hind BETWEEN 10 and 15 
+ORDER by hind;
+--sama päring ilma between
+SELECT telefonMudel,hind
+From telefon
+WHERE hind >=10 or hind <=25 
+ORDER by hind;
+
+--distinct ?! näitab ainult üks kordus 
+SELECT DISTINCT Osystem FROM telefon;
+
+--Võrdlumine tekstiga LIKE
+SELECT tootja,telefonMudel
+FROM telefon
+WHERE tootja LIKE 'Sony';
+--IN kuvab vastavus loetulus -соответствие перечеслению
+SELECT tootja,telefonMudel
+FROM telefon
+WHERE tootja IN ('Sony','Samsung','Apple');
+
+--sama päring ilma IN
+SELECT tootja,telefonMudel
+FROM telefon
+WHERE tootja LIKE 'Sony' OR tootja LIKE 'Samsung' OR tootja LIKE'Apple';
+--leia mudelid mis algavad s tähega
+--% tähendab üks kõik kui palju sümboolit 
+SELECT tootja,telefonMudel
+FROM telefon
+WHERE telefonMudel LIKE 'S%';
+--sisaldab s täht '%s%'
+
+--agregaat-funktsioonid AVG,MAX,MIN,SUM,COUNT:
+--keskmine väljastamise aasta
+SELECT AVG(v_aastane) AS 'keskmine Aasta'
+FROM telefon;
+
+--telefonide üldkogus
+SELECT Count(*) AS 'üldkogus'
+FROM telefon;
+--keeruline variant funktsiooniga
+--telefonide üldkogus iga tootja kohta
+SELECT tootja,Count(*) AS 'üldkogus'
+FROM telefon
+GROUP by tootja;
+--top 6
+SELECT TOP 6 tootja
+FROM telefon
+ORDER BY tootja DESC
