@@ -1,0 +1,112 @@
+--SELECT laused 2 tabelite põhjal
+CREATE DATABASE DamianRud;
+use DamianRud;
+
+CREATE TABLE uudised(
+uudisID int primary key identity(1,1),
+uudisPealkiri varchar(50),
+kuupaev date,
+kirjeldus TEXT,
+ajakirjanikID int)
+
+CREATE TABLE ajakirjanik(
+ajakirjanikID int primary key identity(1,1),
+nimi varchar(50),
+telefon varchar(13));
+
+
+ALTER TABLE uudised ADD CONSTRAINT fk_ajakirjanik
+FOREIGN KEY (ajakirjanikID)
+REFERENCES ajakirjanik(ajakirjanikID);
+
+INSERT INTO ajakirjanik(nimi,telefon)
+values ('Lev','5757755874'),('Anton','57357597')
+
+SELECT * FROM ajakirjanik;
+
+
+INSERT into uudised(uudisPealkiri,kuupaev,ajakirjanikID)
+values ('Homme on ises töö päev','2025-03-12',1),
+('Täna on andmebaaside tund','2025-03-12',1),
+('Täna on vihane ilm','2025-03-12',2)
+
+Select * from uudised;
+
+
+--allias-nimed kasutamine
+Select u.uudisPealkiri,u.kirjeldus from uudised as u
+--u - alias-nimi uudised tabelile
+
+--2 tabeli põhilised laused
+
+SELECT * FROM uudised,ajakirjanik; --ei ole õige päring!
+--uudiste tabeli kirjed korrutatakse teise tabeli kirjaga
+
+--õige päring
+SELECT * FROM uudised,ajakirjanik
+WHERE uudised.ajakirjanikID=ajakirjanik.ajakirjanikID;
+--sama päring alias-nimedega
+SELECT * FROM uudised as u,ajakirjanik as a
+WHERE u.ajakirjanikID=a.ajakirjanikID;
+
+--lihtsustame päringu
+SELECT u.uudisPealkiri,a.nimi as autor
+FROM uudised as u,ajakirjanik as a
+WHERE u.ajakirjanikID=a.ajakirjanikID;
+
+--*lõikepilt tulemusest
+--INNER JOIN - sisemine ühendamine
+SELECT u.uudisPealkiri,a.nimi as autor
+FROM uudised as u INNER JOIN ajakirjanik as a
+ON u.ajakirjanikID=a.ajakirjanikID;
+
+--*lõikepilt tulemusest
+
+--LEFT JOIN - vasak väline ühendus
+SELECT a.nimi as a,u.uudisPealkiri as uudis
+FROM ajakirjanik as a LEFT JOIN uudised as u
+ON u.ajakirjanikID=a.ajakirjanikID;
+
+--RIGHT JOIN -parem väline ühendus
+
+SELECT a.nimi as a,u.uudisPealkiri as uudis
+FROM ajakirjanik as a RIGHT JOIN uudised as u
+ON u.ajakirjanikID=a.ajakirjanikID;
+
+--cross join  -kortab kõik read 2 tabelsit omavahel
+
+SELECT a.nimi as a,u.uudisPealkiri as uudis
+FROM ajakirjanik as a Cross JOIN uudised as u;
+
+--lõikepilt tulemust
+--3.tabel
+CREATE TABLE ajaleht(
+ajalehtID int primary key identity(1,1),
+ajalehtNimetus varchar(50));
+INSERT ajaleht(ajalehtNimetus)
+values ('Postimees'),('Delfi');
+
+
+ALTER TABLE uudised ADD ajalehtID int;
+ALTER TABLE uudised ADD constraint fk_ajaleht
+FOREIGN KEY (ajalehtID) References ajaleht(ajalehtID);
+
+UPDATE uudised SET ajalehtID=2;
+SELECT * FROM ajaleht;
+select * from uudised;
+
+
+--select 3 tabeli põhjal
+SELECT u.uudisPealkiri,a.nimi as autor,aj.ajalehtNimetus
+FROM uudised as u,ajakirjanik as a,ajaleht as aj
+WHERE u.ajakirjanikID=a.ajakirjanikID
+AND u.ajalehtID=aj.ajalehtID;
+
+--sama INNER JOIN iga
+SELECT u.uudisPealkiri,a.nimi as autor,aj.ajalehtNimetus
+FROM (uudised as u INNER JOIN ajakirjanik as a
+ON u.ajakirjanikID=a.ajakirjanikID)
+INNER JOIN ajaleht as aj
+ON u.ajalehtID=aj.ajalehtID;
+
+--enesetestimine
