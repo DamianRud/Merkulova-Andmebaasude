@@ -1,0 +1,167 @@
+CREATE DATABASE ViewVaade;
+Use ViewVaade;
+
+
+
+CREATE TABLE laps(
+    lapsID INT NOT NULL PRIMARY KEY identity,
+    nimi VARCHAR(40) NOT NULL,
+    pikkus SMALLINT,
+    synniaasta INT NULL,
+    synnilinn VARCHAR(15)
+);
+
+
+
+CREATE TABLE loom(
+    loomID INT NOT NULL PRIMARY KEY identity,
+    nimi VARCHAR(40) NOT NULL,
+    kaal SMALLINT,
+    lapsID INT,
+    FOREIGN KEY (lapsID) REFERENCES laps(lapsID)
+);
+
+
+INSERT INTO laps(nimi, pikkus, synniaasta, synnilinn)
+VALUES 
+('Matvei', 150, 2005, 'Tallinn'),
+('Andrei', 155, 2006, 'Tallinn'),
+('Maks', 160, 2005, 'Tallinn'),
+('Ilja', 150, 2007, 'Tallinn'),
+('Damian', 181, 2009, 'Tallinn');
+SELECT * FROM laps;
+
+INSERT INTO loom(nimi,kaal,lapsID)
+VALUES
+('Koer', 25, 1),
+('Kass', 5, 2),
+('Jänes', 3, 3),
+('Papagoi', 1, 4),
+('Kilpkonn', 10, 5);
+
+
+SELECT * FROM laps;
+SELECT * FROM loom;
+
+
+--select lause 2 seotud tabelite põhjal
+SELECT * FROM laps INNER JOIN loom
+ON laps.lapsID=loom.lapsID;
+--kitsaim variant
+SELECT l.nimi,lm.nimi FROM laps l INNER JOIN loom lm
+ON l.lapsID=lm.lapsID;
+--salvestame päring view abil 
+CREATE VIEW sisestatud_lapsiloomad AS 
+SELECT l.nimi AS lapsNimi,lm.nimi AS loomNimi
+FROM laps l INNER JOIN loom lm
+ON l.lapsID=lm.lapsID;
+
+--kasutame salvestud view
+SELECT * FROM sisestatud_lapsiloomad;
+
+
+--21.
+CREATE VIEW lapsedImlaloomata AS
+SELECT lp.nimi AS lapsenimi, 
+       l.nimi AS loomanimi, 
+       l.kaal, 
+       lp.synnilinn
+FROM laps AS lp LEFT JOIN loom AS l
+ON l.lapsID = lp.lapsID;
+--kasutame salvestud view
+SELECT *  FROM lapsedImlaloomata;
+SELECT lapsenimi,loomanimi from lapsedImlaloomata;
+
+
+
+--24. Tabeli varjupaik loomine
+CREATE TABLE varjupaik(
+    varjupaikID INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+    koht VARCHAR(50) NOT NULL,
+    firma VARCHAR(30)
+);
+
+
+ALTER TABLE loom 
+ADD varjupaikID INT;
+
+
+ALTER TABLE loom 
+ADD CONSTRAINT fk_varjupaik
+FOREIGN KEY (varjupaikID) REFERENCES varjupaik(varjupaikID);
+
+
+INSERT INTO varjupaik(koht, firma)
+VALUES ('Paljassaare', 'Varjupaikade MTÜ');
+--Kontrollime tabelit:
+
+SELECT * FROM varjupaik;
+
+
+UPDATE loom 
+SET varjupaikID = 1;
+--Kontrollime tulemust:
+
+SELECT * FROM loom;
+
+
+--loome view /vaade mis kasutab 3 tabelit
+CREATE VIEW lapseloomadVarupaik AS
+SELECT lp.nimi AS lapsenimi, 
+       l.nimi AS loomanimi, 
+       v.koht
+FROM laps AS lp, loom AS l, varjupaik AS v
+WHERE l.lapsID = lp.lapsID 
+AND l.varjupaikID = v.varjupaikID;
+--kasutame salvestatud view
+select * from lapseloomadVarupaik;
+--dbov - datadase object
+
+--leidame ainult kass
+CREATE view kass AS
+SELECT * FROM loom
+WHERE nimi Like 'kass'
+
+SELECT * FROM laps;
+
+
+--lapsed kui on noorem 
+CREATE view lapsAlla18 AS
+SELECT Nimi,synniaasta,(2026-synniaasta)AS Vanus FROM laps
+Where synniaasta >=2008;
+
+SELECT * FROM lapsAlla18;
+
+
+
+--keskmine kaal
+CREATE VIEW Keskminekaal AS
+SELECT AVG(kaal) AS keskminekaal from loom;
+
+SELECT * FROM Keskminekaal;
+
+-- view mis näitab lapsi kellek on rohkem kui 1 loom
+
+SELECT * sisestatud_lapsiloomad;
+
+CREATE VIEW sisestatud_lapsiloomad AS 
+SELECT l.nimi AS lapsNimi,Count(lm.nimi) AS loomNimi
+FROM laps l INNER JOIN loom lm
+ON l.lapsID=lm.lapsID
+GROUP BY l.nimi;
+HAVING Count(l.nimi)>1;
+
+SELECT * FROM sisestatud_lapsiloomad;
+
+
+--kas võib teha update VIEW
+--ja MIDA ta muutab
+CREATE View loomad AS 
+SELECT nimi,kaal, FROM loom;
+SELECT * FROM loomad;
+SELECT * FROM loom;
+
+
+--suurendame kaal 10% võõra
+UPDATE loomad SET kaal=kaal*2;
+
