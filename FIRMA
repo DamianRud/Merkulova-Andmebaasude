@@ -1,0 +1,272 @@
+CREATE DATABASE päringud;
+use päringud;
+
+
+
+-- Loo firma tabel
+CREATE TABLE firma(
+    firmaID INT NOT NULL PRIMARY KEY identity(1,1),
+    firmanimi VARCHAR(20),
+    aadress VARCHAR(20),
+    telefon VARCHAR(20)
+);
+
+INSERT INTO firma (firmanimi, aadress, telefon) 
+VALUES 
+('InfoTehnoloogia OÜ', 'Sõpruse pst 145', '+372 555 1234'),
+('DigiLahendused AS', 'Tartu mnt 80', '+372 512 3456'),
+('Eesti Energia', 'Lelle 22', '+372 612 0000'),
+('Nortal AS', 'Lõõtsa 6', '+372 660 0000'),
+('Wise', 'Rataskaevu 6', '+372 588 7766'),
+('Telia Eesti AS', 'Mustamäe tee 3', '+372 639 7111'),
+('Boltech OÜ', 'Vana-Lõuna 15', '+372 533 2211'),
+('Skype Technologies', 'Akadeemia tee 15', '+372 686 1000'),
+('Cybernetica AS', 'Mäealuse 2', '+372 639 7900'),
+('Pipedrive OÜ', 'Paldiski mnt 80', '+372 566 9988');
+
+--tabel – praktikajuhendaja
+CREATE TABLE praktikajuhendaja (
+praktikajuhendaja_id INT PRIMARY KEY identity(1,1), 
+Esineme_Nimi VARCHAR(50),              
+viimased_Nimi VARCHAR(50),              
+Sünipäev_kuupäevad DATE,                              
+Telefon_number VARCHAR(20)                      
+);
+
+
+INSERT INTO praktikajuhendaja (Esineme_Nimi, viimased_Nimi, Sünipäev_kuupäevad, Telefon_number)
+VALUES 
+('Andrus', 'Kivi', '1985-05-12', '+372 551 2345'),
+('Mari', 'Tamm', '1990-11-23', '+372 512 9876'),
+('Jüri', 'Kask', '1978-03-30', '+372 533 4455'),
+('Tiina', 'Mägi', '1982-07-15', '+372 566 7788'),
+('Mait', 'Lepik', '1995-01-05', '+372 501 0203'),
+('Kati', 'Oja', '1988-09-18', '+372 522 3344'),
+('Sander', 'Pärn', '1980-12-01', '+372 588 6677'),
+('Liis', 'Kuusk', '1992-06-25', '+372 544 5566'),
+('Toomas', 'Sild', '1975-02-14', '+372 599 8811'),
+('Elena', 'Vaher', '1993-08-09', '+372 577 1122');
+
+
+--tabel – praktikabaas
+CREATE TABLE praktikabaas(
+    praktikabaasID INT NOT NULL PRIMARY KEY identity(1,1),
+    firmaID INT,
+    praktikatingimused VARCHAR(20),
+    arvutiprogramm VARCHAR(20),
+    juhendajaID INT,
+    FOREIGN KEY (firmaID) REFERENCES firma(firmaID),
+    FOREIGN KEY (juhendajaID) REFERENCES praktikajuhendaja(praktikajuhendaja_id)
+);
+
+
+INSERT INTO praktikabaas (firmaID, praktikatingimused, arvutiprogramm, juhendajaID)
+VALUES 
+(1, 'Kontoritöö', 'MS Excel', 1),
+(2, 'Kaugisõpe', 'VS Code', 2),
+(3, 'Täisajaga', 'AutoCAD', 3),
+(4, 'Paindlik', 'IntelliJ', 4),
+(5, 'Tasustatud', 'Slack', 5),
+(6, 'Kontoris', 'SAP', 6),
+(7, 'Osaline tööaeg', 'Docker', 7),
+(8, 'Projektipõhine', 'Figma', 8),
+(9, 'Lepinguga', 'Python/IDLE', 9),
+(10, 'Suvepraktika', 'Jira', 10);
+
+SELECT * FROM firma;
+SELECT * FROM praktikabaas;
+SELECT * FROM praktikajuhendaja;
+
+
+
+SELECT * FROM firma
+WHERE firmanimi LIKE '%a%';
+
+
+
+SELECT *
+FROM praktikabaas, firma
+WHERE firma.firmaID = praktikabaas.firmaID
+ORDER BY firmanimi;
+
+
+
+
+SELECT firmanimi, COUNT(praktikabaasID) AS kogus
+FROM praktikabaas, firma
+WHERE firma.firmaID = praktikabaas.firmaID
+GROUP BY firmanimi;
+
+
+SELECT *
+FROM praktikajuhendaja
+WHERE MONTH(Sünipäev_kuupäevad) IN (9, 10, 11);
+
+
+
+
+
+SELECT 
+    j.Esineme_Nimi, 
+    j.viimased_Nimi, 
+    COUNT(b.praktikabaasID) AS kohtade_arv
+FROM praktikajuhendaja j
+LEFT JOIN praktikabaas b ON j.praktikajuhendaja_id = b.juhendajaID
+GROUP BY j.Esineme_Nimi, j.viimased_Nimi;
+
+
+ALTER TABLE praktikajuhendaja 
+ADD Palk DECIMAL(10, 2);
+
+
+
+
+UPDATE praktikajuhendaja SET Palk = 1800.00 WHERE praktikajuhendaja_id = 1;
+UPDATE praktikajuhendaja SET Palk = 2100.50 WHERE praktikajuhendaja_id = 2;
+UPDATE praktikajuhendaja SET Palk = 1950.00 WHERE praktikajuhendaja_id = 3;
+UPDATE praktikajuhendaja SET Palk = 2500.00 WHERE praktikajuhendaja_id = 4;
+UPDATE praktikajuhendaja SET Palk = 1700.00 WHERE praktikajuhendaja_id = 5;
+UPDATE praktikajuhendaja SET Palk = 2200.00 WHERE praktikajuhendaja_id = 6;
+UPDATE praktikajuhendaja SET Palk = 2350.00 WHERE praktikajuhendaja_id = 7;
+UPDATE praktikajuhendaja SET Palk = 1900.00 WHERE praktikajuhendaja_id = 8;
+UPDATE praktikajuhendaja SET Palk = 2050.00 WHERE praktikajuhendaja_id = 9;
+UPDATE praktikajuhendaja SET Palk = 2150.00 WHERE praktikajuhendaja_id = 10;
+
+
+
+
+SELECT 
+AVG(Palk) AS keskmine_palk, 
+SUM(Palk) AS kogupalk
+FROM praktikajuhendaja;
+GO
+
+--Minu procedur 
+SELECT Esineme_Nimi, Palk
+FROM praktikajuhendaja
+ORDER BY Palk DESC;
+
+SELECT * FROM praktikajuhendaja;
+
+CREATE VIEW v_Ettevotte_Kohad AS
+SELECT f.firmanimi, COUNT(b.praktikabaasID) AS kohtade_arv
+FROM firma f
+LEFT JOIN praktikabaas b ON f.firmaID = b.firmaID
+GROUP BY f.firmanimi;
+
+
+SELECT * FROM v_Ettevotte_Kohad;
+
+
+
+
+CREATE VIEW v_Sygis_Juhendajad AS
+SELECT Esineme_Nimi, viimased_Nimi, Sünipäev_kuupäevad
+FROM praktikajuhendaja
+WHERE MONTH(Sünipäev_kuupäevad) IN (9, 10, 11);
+
+SELECT * FROM v_Sygis_Juhendajad;
+
+
+
+
+CREATE PROCEDURE LisaUusFirma
+    @nimi VARCHAR(50),
+    @aadress VARCHAR(50),
+    @telefon VARCHAR(20)
+AS
+BEGIN
+    INSERT INTO firma (firmanimi, aadress, telefon)
+    VALUES (@nimi, @aadress, @telefon);
+    
+    SELECT * FROM firma WHERE firmanimi = @nimi;
+END;
+
+
+EXEC LisaUusFirma @nimi = 'Test-Firma OÜ', @aadress = 'Kesklinn 1', @telefon = '5550000';
+
+
+
+CREATE PROCEDURE LisaEmailVeerg
+AS
+BEGIN
+    ALTER TABLE praktikajuhendaja
+    ADD Email VARCHAR(100);
+    
+END;
+GO
+
+EXEC LisaEmailVeerg;
+
+
+
+SELECT * FROM praktikajuhendaja;
+
+
+
+CREATE PROCEDURE ArvutaKeskminePalk
+AS
+SELECT AVG(Palk) AS Keskmine
+FROM praktikajuhendaja;
+GO
+
+EXEC ArvutaKeskminePalk;
+
+
+
+
+
+
+
+
+
+
+
+SELECT 
+    Esineme_Nimi AS Eesnimi, 
+    viimased_Nimi AS Perekonnanimi, 
+    Sünipäev_kuupäevad AS Sünnikuupäev,
+    dbo.fnComputeAge(Sünipäev_kuupäevad) AS Vanus_v1,
+    dbo.CalculateAge(Sünipäev_kuupäevad) AS Vanus_v2
+FROM praktikajuhendaja;
+
+
+create function fnComputeAge(@DOB datetime)
+returns nvarchar(50)
+as begin
+    declare @tempdate datetime, @years int, @months int, @days int
+        select @tempdate = @DOB
+ 
+        select @years = datediff(year, @tempdate, getdate()) - case when (month(@DOB) > month(GETDATE())) or (MONTH(@DOB)
+        = month (getdate()) and day(@DOB) > DAY(getdate())) then 1 else 0 end
+        select @tempdate = dateadd(year, @years, @tempdate)
+ 
+        select @months = datediff(month, @tempdate, getdate()) - case when day(@DOB) > day(getdate()) then 1 else 0 end
+        select @tempdate = dateadd(MONTH, @months, @tempdate)
+ 
+        select @days = datediff(day, @tempdate, getdate())
+ 
+    declare @Age nvarchar(50)
+        set @Age = cast(@years as nvarchar(4)) + ' Years ' + cast(@months as nvarchar(2)) + 
+        ' Months ' + cast(@days as nvarchar(2)) + ' Days old'
+    return @Age
+end
+
+
+create function dbo.CalculateAge(@DOB date)
+returns int
+as begin
+declare @Age int
+ 
+set @Age = DATEDIFF(YEAR, @DOB, GETDATE()) -
+    case
+        when (MONTH(@DOB) > MONTH(getdate())) or
+             (MONTH(@DOB) > MONTH(GETDATE()) and DAY(@DOB) > day(GETDATE()))
+        then 1
+        else 0
+        end
+    return @Age
+end
+
+
+SELECT * FROM praktikajuhendaja;
