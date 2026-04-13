@@ -1,0 +1,125 @@
+
+--Insert, DELETE TRIGER
+CREATE TRIGGER LinnaLisamiineKustutamine
+ON Linnad 
+FOR INSERT, DELETE 
+AS 
+BEGIN 
+SET NOCOUNT ON;
+insert into logi(kuupaev,andmed,kasutaja)
+Select 
+getdate(),
+CONCAT('lisatud linn: ', inserted.linnanimi, 
+' | rahvaarv: ', inserted.rahvaarv, ' | id: ', inserted.linnId),
+SYSTEM_USER
+FROM inserted;
+
+
+
+
+
+SELECT
+getdate(),
+CONCAT('kustutatud linn: ', deleted.linnanimi,
+' | rahvaarv: ', deleted.rahvaarv, ' | id: ', deleted.linnId),
+SYSTEM_USER
+FROM deleted;
+end;
+
+--deaktiveerimi linnalisamine ka linnaKustutamine
+DISABLE TRIGGER linnaLisamine ON linnad;
+DISABLE TRIGGER linnaKustutamine ON linnad;
+
+--kontroll
+INSERT INTO linnad (linnanimi, rahvaarv)
+VALUES ('Keila34', 60000);
+SELECT * FROM linnad;
+SELECT * FROM logi;
+
+DELETE FROM linnad where linnID=5
+
+
+
+
+
+
+
+
+CREATE TABLE Auto (
+AutoID int PRIMARY KEY IDENTITY(1,1),
+Autonr varchar(10),
+Omanik varchar(50),
+mark varchar(50),
+aasta int
+);
+
+CREATE TABLE autologi (
+logiID int PRIMARY KEY IDENTITY(1,1),
+tegevus varchar(50),
+aeg datetime,
+autoID int,
+andmed text
+);
+
+INSERT INTO Auto (Autonr, Omanik, mark, aasta)
+VALUES 
+('123 ABC', 'Jaan Tamm', 'BMW', 2020),
+('456 XYZ', 'Mari Maasikas', 'Toyota', 2018),
+('789 QWE', 'Kristjan Kask', 'Audi', 2022),
+('001 EST', 'Tiina Tuul', 'Tesla', 2023),
+('555 LUX', 'Marten Mets', 'Mercedes-Benz', 2019);
+
+SELECT * FROM Auto;
+
+
+CREATE TRIGGER trgLisa
+ON Auto
+AFTER INSERT
+AS
+BEGIN
+INSERT INTO autologi(tegevus, aeg)
+VALUES ('Auto on lisatud', GETDATE());
+END;
+
+
+CREATE TRIGGER trgKustuta
+ON Auto
+AFTER DELETE
+AS
+BEGIN
+INSERT INTO autologi(tegevus, aeg)
+VALUES ('Auto on kustutatud', GETDATE());
+END;
+
+
+CREATE TRIGGER trgUuenda
+ON Auto
+AFTER UPDATE
+AS
+BEGIN
+INSERT INTO autologi(tegevus, aeg)
+VALUES ('Auto andmed on muudetud', GETDATE());
+END;
+
+SELECT * FROM auto;
+SELECT * FROM autologi;
+
+INSERT INTO Auto (Autonr, Omanik, mark, aasta)
+VALUES ('578itg', 'Ilon Mask', 'Tesla', 2026);
+
+
+SELECT * FROM autologi;
+
+
+UPDATE Auto 
+SET Omanik = 'Uus Omanik' 
+WHERE Autonr = '456 XYZ';
+SELECT * FROM auto;
+
+
+
+DELETE FROM Auto 
+WHERE Autonr = '123 ABC';
+
+SELECT * FROM autologi;
+
