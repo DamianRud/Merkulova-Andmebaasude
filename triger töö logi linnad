@@ -1,0 +1,122 @@
+Create Database Damian;
+use Damian;
+
+Create table linnad(
+linnId int primary key identity(1,1),
+linnanimi varchar(50) unique,
+rahvaarv int not null);
+
+CREATE TABLE logi(
+Id int primary key identity(1,1),
+kuupaev datetime,
+andmed TEXT
+);
+
+ALTER TABLE logi 
+ADD kasutaja varchar(50);
+
+
+create table maakonnad(
+maakondId int primary key identity(1,1),
+maakondNimi varchar(25) Unique);
+
+--forigen key tabelis linnad
+Alter table linnad Add maakondId int;
+select * from linnad;
+Alter table linnad add constraint fk_maakond
+foreign key (maakondId) references maakonnad(maakondId);
+--täidame tabelid
+--maakonnad
+Insert into maakonnad
+Values('Harjumaa'),('Pärnumaa'),('Virumaa');
+
+select * from maakonnad;
+insert into linnad (linnanimi,rahvaarv,maakondId)
+values ('Tallinn',413000,1),('Rakvere',150000,3);
+
+SELECT * FROM linnad, maakonnad 
+WHERE linnad.maakondId = maakonnad.maakondId;
+
+--sama päring inner join iga
+select * from linnad inner join maakonnad
+ON linnad.maakondId=maakonnad.maakondId;
+
+
+--triger mis jälgib kaks seostatud tabelid
+ALTER TRIGGER LinnaLisamine
+ON linnad 
+for INSERT 
+AS
+BEGIN
+INSERT INTO logi(kuupaev, andmed, kasutaja)
+SELECT 
+GETDATE(), 
+CONCAT('Lisatud linn: ', i.linnanimi, ', rahvaarv: ', i.rahvaarv),
+USER_NAME() 
+FROM inserted i;
+END;
+
+--kontroll
+insert into linnad (linnanimi,rahvaarv,maakondId)
+values ('Pärnu',10000,2);
+
+select * from logi;
+select * from linnad;
+
+
+
+
+
+CREATE TRIGGER LinnaKustutamine
+ON Linnad
+FOR DELETE
+AS
+BEGIN
+INSERT INTO logi(kuupaev, andmed, kasutaja)
+SELECT 
+GETDATE(), 
+CONCAT(
+'Kustutatud linn: ', d.linnanimi, 
+', rahvaarv: ', d.rahvaarv, 
+', maakond: ', m.maakondNimi 
+),
+USER_NAME()
+FROM deleted d
+INNER JOIN maakonnad m ON d.maakondId = m.maakondId;
+END;
+
+--kontroll
+delete from linnad WHERE linnID=2;
+select * FROM linnad;
+select * FROM logi;
+
+
+--triger mis jälgib andmete uuendamine kahes tabelis 
+CREATE OR ALTER TRIGGER LinnaUuendamine
+ON linnad
+FOR UPDATE
+AS
+BEGIN
+INSERT INTO logi(kuupaev, andmed, kasutaja)
+SELECT 
+GETDATE(), 
+CONCAT(
+'MUUTMINE. ',
+'Vana: ', d.linnanimi, ' (rahvaarv: ', d.rahvaarv, ', maakond: ', m1.maakondNimi, '). ',
+'Uus: ', i.linnanimi, ' (rahvaarv: ', i.rahvaarv, ', maakond: ', m2.maakondNimi, ')'
+),
+USER_NAME()
+FROM deleted d
+INNER JOIN inserted i ON d.linnId = i.linnId 
+INNER JOIN maakonnad m1 ON d.maakondId = m1.maakondId 
+INNER JOIN maakonnad m2 ON i.maakondId = m2.maakondId;
+END;
+
+--kontroll
+select * from linnad;
+select * from maakonnad;
+update linnad set maakondId=3
+
+UPDATE linnad 
+SET maakondId = 1, linnanimi = 'uus Paide' 
+WHERE linnId = 3;
