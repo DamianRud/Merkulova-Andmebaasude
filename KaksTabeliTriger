@@ -1,0 +1,91 @@
+CREATE DATABASE opilased; 
+USE opilased; 
+
+
+CREATE TABLE opilased (
+opilaneID INT IDENTITY(1,1) PRIMARY KEY,
+nimi VARCHAR(100),
+vanus INT,
+klass VARCHAR(10)
+); 
+
+
+CREATE TABLE logi (
+logiID INT IDENTITY(1,1) PRIMARY KEY,
+kuupaev DATETIME DEFAULT GETDATE(),
+tegevus VARCHAR(255),
+kasutaja VARCHAR(100)
+); 
+
+
+INSERT INTO opilased (nimi, vanus, klass)
+VALUES 
+('Daniil Petrov', 16, '10A'),
+('Anna Mihhailova', 15, '9B'),
+('Mark Sidorov', 17, '11C'),
+('Jelena Kask', 14, '8A'),
+('Ivan Smirnov', 16, '10B'); 
+
+
+
+
+CREATE TRIGGER trgiger_opilane_lisa
+ON opilased
+FOR INSERT
+AS
+BEGIN
+    INSERT INTO logi (tegevus, kasutaja)
+    SELECT 'lisatud: ' + nimi, USER_NAME()
+    FROM inserted;
+END;
+
+
+
+CREATE TRIGGER trg_opilane_kustuta
+ON opilased
+FOR DELETE
+AS
+BEGIN
+    INSERT INTO logi (tegevus, kasutaja)
+    SELECT 'kustutatud: ' + nimi, USER_NAME()
+    FROM deleted;
+END;
+
+INSERT INTO opilased (nimi, vanus, klass) VALUES ('Damian Rud', 15, '9c');
+SELECT * FROM logi;
+
+
+DELETE FROM opilased WHERE nimi = 'Damian Rud';
+SELECT * FROM logi;
+
+select * from opilased;
+
+
+
+
+--lisaks tabel
+CREATE TABLE kursused (
+kursusID INT IDENTITY(1,1) PRIMARY KEY,
+kursuseNimi VARCHAR(50),
+opilaneID INT,
+FOREIGN KEY (opilaneID) REFERENCES opilased(opilaneID)
+);
+
+
+CREATE TRIGGER trg_kursus_lisa
+ON kursused
+FOR INSERT
+AS
+BEGIN
+    INSERT INTO logi (tegevus, kasutaja)
+    SELECT 'Lisati kursus: ' + kursuseNimi, USER_NAME()
+    FROM inserted;
+END;
+
+
+
+INSERT INTO kursused (kursuseNimi, opilaneID) 
+VALUES ('Programmeerimine', 1);
+
+SELECT * FROM logi;
+select * from kursused;
