@@ -1,0 +1,53 @@
+create Database opilased;
+use opilased;
+
+CREATE TABLE oppilased (
+oppilase_id INT IDENTITY(1,1) PRIMARY KEY,
+nimi VARCHAR(100),
+vanus INT,
+klass VARCHAR(10) 
+);
+
+INSERT INTO oppilased (nimi, vanus, klass)
+VALUES
+('Mari Tamm',   14, '8A'),
+('Jüri Mägi',   12, '6B'),
+('Liisa Kask',  16, '10A'),
+('Peeter Lepp', 13, '7A');
+
+SELECT * FROM oppilased;
+
+
+CREATE TABLE logi (
+logi_id    INT IDENTITY(1,1) PRIMARY KEY,
+kuupäev    DATETIME DEFAULT GETDATE(),
+tegevus    VARCHAR(255),
+kasutaja   VARCHAR(100)
+);
+
+
+
+CREATE TRIGGER oppilaneListamine
+ON oppilased
+FOR INSERT
+AS
+INSERT INTO logi(kuupäev, tegevus)
+SELECT
+GETDATE(),
+'Lisati uus õpilane: ' + inserted.nimi
+FROM inserted;
+
+CREATE TRIGGER oppilaneKustutamine
+ON oppilased
+FOR DELETE
+AS
+INSERT INTO logi(kuupäev, tegevus)
+SELECT
+GETDATE(),
+'Kustutati õpilane: ' + deleted.nimi
+FROM deleted;
+
+
+
+
+
