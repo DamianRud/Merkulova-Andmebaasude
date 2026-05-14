@@ -1,0 +1,10 @@
+USE opilased2;
+SELECT * FROM oppilased;
+
+SELECT * FROM logi;
+
+CREATE TRIGGER test
+ON oppilased
+FOR INSERT
+AS
+INSERT INTO logi VALUES (GETDATE(), 'test', 'test');
