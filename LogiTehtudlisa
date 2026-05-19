@@ -1,0 +1,61 @@
+CREATE TRIGGER oppilaseKustutamine
+ON oppilased
+FOR DELETE
+AS
+INSERT INTO logi (kuupäev, tegevus, kasutaja)
+SELECT
+    GETDATE(),  -- время удаления
+    CONCAT(
+        'Kustutati õpilane: ',
+        deleted.nimi,
+        ', vanus: ',
+        deleted.vanus,
+        ', klass: ',
+        deleted.klass
+    ),
+    SUSER_NAME()  -- пользователь SQL Server
+FROM deleted;
+
+DELETE FROM oppilased
+WHERE oppilase_id = 1;
+
+
+
+SELECT * FROM logi;
+
+
+
+
+
+
+CREATE TRIGGER oppilaseUuendamine
+ON oppilased
+FOR UPDATE
+AS
+INSERT INTO logi (kuupäev, tegevus, kasutaja)
+SELECT
+    GETDATE(),
+    CONCAT(
+        'Vanad andmed - nimi: ', deleted.nimi,
+        ', vanus: ', deleted.vanus,
+        ', klass: ', deleted.klass,
+        ' | Uued andmed - nimi: ', inserted.nimi,
+        ', vanus: ', inserted.vanus,
+        ', klass: ', inserted.klass
+    ),
+    SUSER_NAME()
+FROM deleted
+INNER JOIN inserted
+ON deleted.oppilase_id = inserted.oppilase_id;
+
+
+UPDATE oppilased
+SET vanus = 15,
+    klass = '9A'
+WHERE oppilase_id = 1;
+
+
+
+
+SELECT * FROM logi;
+
