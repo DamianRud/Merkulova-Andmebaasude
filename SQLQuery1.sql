@@ -1,63 +1,130 @@
-CREATE DATABASE Rud;
-use Rud;
+create Database opilased;
+use opilased;
 
---tabeli loomine
-CREATE TABLE kasutaja(
-kasutajaID int primary key Identity(1,1),
-kasutajaNimi varchar(15) NOT NULL,
-epost varchar(15),
-parool char(10) NOT NULL);
+CREATE TABLE oppilased (
+oppilase_id INT IDENTITY(1,1) PRIMARY KEY,
+nimi VARCHAR(100),
+vanus INT,
+klass VARCHAR(10) 
+);
 
-Select * FROM kasutaja;
+INSERT INTO oppilased (nimi, vanus, klass)
+VALUES
+('Mari Tamm',   14, '8A'),
+('Jüri Mägi',   12, '6B'),
+('Liisa Kask',  16, '10A'),
+('Peeter Lepp', 13, '7A');
 
-
-Insert into kasutaja(kasutajaNimi,parool)
-values('Lev','Test');
-
---tabeli muutmine ja uue veergu lisamine 
-ALTER TABLE kasutaja ADD elukoht varchar(15);
-
-
---tabeli andmete uuendamine
-
-UPDATE kasutaja SET elukoht='Tallinn';
-
---veeru kustutamine
-ALTER TABLE kasutaja DROP COLUMN elukoht;
-Select * FROM kasutaja;
+SELECT * FROM oppilased;
 
 
---veeru andmetüübi muutmine
-ALTER TABLE kasutaja ALTER COLUMN parool varchar(50);
-SELECT * FROM kasutaja
+CREATE TABLE logi (
+logi_id    INT IDENTITY(1,1) PRIMARY KEY,
+kuupäev    DATETIME DEFAULT GETDATE(),
+tegevus    VARCHAR(255),
+kasutaja   VARCHAR(100)
+);
 
-Insert into kasutaja(kasutajaNimi,parool)
-values('Andrei','12345678901234567890');
+
+CREATE TABLE hinded (
+hinneID INT IDENTITY(1,1) PRIMARY KEY,
+opilase_id INT FOREIGN KEY REFERENCES oppilased(oppilase_id),
+aine VARCHAR(50),
+hinne INT,
+kuupaev DATE
+);
+
+select * from hinded;
+
+INSERT INTO hinded (opilase_id, aine, hinne, kuupaev)
+VALUES
+(2, 'Matemaatika', 5, '2026-05-20'),
+(2, 'Eesti keel',   4, '2026-05-21'),
+(3, 'Inglise keel', 5, '2026-05-19'),
+(3, 'Matemaatika',  3, '2026-05-22'),
+(4, 'Füüsika',      4, '2026-05-20'),
+(4, 'Ajalugu',      5, '2026-05-25');
+
+SELECT * FROM hinded;
 
 
---protseduur tabeli muutmine
-
-CREATE procedure muudaTabeli
-@tegevus varchar(15),
-@tabeliNimi varchar(15),
-@veeruNimi varchar(15),
-@andmetüüp varchar(15) = Null
+CREATE TRIGGER oppilaseLisamine
+ON oppilased 
+FOR INSERT
 AS
-Begin
-	DECLARE @sqltegevus varchar(max)
-	SET @sqltegevus=case
-		When @tegevus='add' then concat('ALTER TABLE ', @tabeliNimi, 'ADD ', @veeruNimi,' ',@andmetüüp)
+INSERT INTO logi(kuupäev, tegevus, kasutaja)
+SELECT
+GETDATE(),               
+'on tehtud INSERT käsk', 
+inserted.nimi            
+FROM inserted;
 
-		When @tegevus='drop' then concat('ALTER TABLE ', @tabeliNimi, ' DROP COLUMN ', @veeruNimi)
-END;
-print(@sqltegevus);
-begin
-EXEC(@sqltegevus);
-END;
-END;
+INSERT INTO oppilased (nimi, vanus, klass) 
+VALUES ('Martin Tamm', 16, '10B');
 
---kutse
-EXEC muudaTabeli @tegevus=' add',@tabeliNimi='kasutaja',@veeruNimi='Test',@andmetüüp='int'
-SELECT * FROM kasutaja
 
-EXEC muudaTabeli @tegevus='drop', @tabeliNimi='kasutaja', @veeruNimi='Test';
+SELECT * FROM logi;
+
+select * from oppilased;
+
+
+
+
+
+CREATE TRIGGER oppilaseKustutamine
+ON oppilased 
+FOR DELETE
+AS
+INSERT INTO logi(kuupäev, tegevus, kasutaja)
+SELECT
+GETDATE(),               
+'on tehtud DELETE käsk', 
+CONCAT('õpilane: ', deleted.nimi, ', vanus: ', deleted.vanus, ', klass: ', deleted.klass) 
+FROM deleted;
+
+select * from oppilased;
+DELETE FROM oppilased 
+WHERE nimi = 'Martin Tamm';
+
+
+SELECT * FROM logi;
+
+
+
+CREATE TRIGGER oppilaseUuendamine
+ON oppilased 
+FOR UPDATE
+AS
+INSERT INTO logi (kuupäev, tegevus, kasutaja)
+SELECT
+GETDATE(),               
+'on tehtud UPDATE käsk', 
+CONCAT(
+'vanad andmed - nimi: ', deleted.nimi, ', vanus: ', deleted.vanus, ', klass: ', deleted.klass,
+' uued andmed - nimi: ', inserted.nimi, ', vanus: ', inserted.vanus, ', klass: ', inserted.klass
+)                        
+FROM deleted
+INNER JOIN inserted
+ON deleted.oppilase_id = inserted.oppilase_id;
+
+UPDATE oppilased
+SET vanus = 13, klass = '7B'
+WHERE nimi = 'Anna Kivi';
+
+select * from oppilased;
+
+SELECT * FROM logi;
+
+
+SELECT * FROM logi;
+
+
+
+
+
+
+
+
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON oppilased TO User1;
+GRANT SELECT, INSERT, UPDATE, DELETE ON hinded TO User1;
