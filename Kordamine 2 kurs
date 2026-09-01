@@ -1,0 +1,48 @@
+--connect to DB - (localdb)\MSSQLLocalDB
+
+
+use KordamineIKT25;
+
+create table opilane(
+opilaneID int Primary key identity(1,1),
+nimi varchar(50),
+isikukood char(11) not null,
+ryhmID int
+);
+create table ryhm(
+ryhmID  int primary key identity(1,1),
+ryhmNimi char(10) Unique,
+opilasteArv int
+);
+
+--välisvõti - FK
+
+Alter table opilane ADD foreign key (ryhmID) references ryhm(ryhmID);
+
+
+--tabeli kustutamine 
+Drop table...;
+
+
+--õiguste määramine varen tehtud kasutajale 
+
+Grant select  to Damian; --saab vaadata kõik tabelid
+grant insert on opilane to Damian; --saab lisada ainult tabelisse opilane
+
+deny delete to Damian;
+
+
+
+select * from opilane, ryhm
+where opilane.ryhmID=ryhm.ryhmID;
+
+Delete from opilane;
+
+insert into opilane values ('Nikita', '12345678900', 1);
+
+
+
+
+
+
+
