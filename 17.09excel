@@ -1,0 +1,160 @@
+create database Tellimused;
+
+
+
+CREATE TABLE [Klient] (
+  [klientID] INT,
+  [KlientNimi] Varchar(30) not null,
+  PRIMARY KEY ([klientID])
+);
+
+CREATE TABLE [Aadress] (
+  [AadresID] int,
+  [aadres] varchar(30),
+  [klientID] int,
+  PRIMARY KEY ([AadresID]),
+  CONSTRAINT [FK_Aadress_klientID]
+    FOREIGN KEY ([klientID])
+      REFERENCES [Klient]([klientID])
+);
+
+
+
+CREATE TABLE [kommid] (
+  [KommitypeID] int,
+  [kommitüüp] varchar(30),
+  [Field] varchar(50),
+  PRIMARY KEY ([KommitypeID])
+);
+
+CREATE TABLE [komm] (
+  [KommID] INT,
+  [Hind] INT,
+  [KehtivID] INT,
+  [KommNimetus] varchar(30),
+  [KommitypID] INT,
+  PRIMARY KEY ([KommID]),
+  CONSTRAINT [FK_komm_KommitypID]
+    FOREIGN KEY ([KommitypID])
+      REFERENCES [kommid]([KommitypeID])
+);
+
+CREATE TABLE [Kehtivus] (
+  [KehtivID] INT,
+  [Kehtivusaeg] DATE,
+  [Field] varchar(30),
+  PRIMARY KEY ([KehtivID])
+);
+
+CREATE TABLE [Pakkija] (
+    [Pakkijad] INT,
+    [Pakkijanimi] Varchar(30),
+    [Pakkijaperenimi] varchar(30),
+    PRIMARY KEY ([Pakkijad])
+);
+
+CREATE TABLE [Tellimused] (
+  [TellimuseID] INT,
+  [aadresID] INT,
+  [KommiD] INT,
+  [Kogus] varchar(30),
+  [PakkijadID] INT,
+  [Tellimusekuupäev] DATE,
+  PRIMARY KEY ([TellimuseID]),
+  CONSTRAINT [FK_Tellimused_KommiD]
+    FOREIGN KEY ([KommiD])
+      REFERENCES [komm]([KommID]),
+  CONSTRAINT [FK_Tellimused_aadresID]
+    FOREIGN KEY ([aadresID])
+      REFERENCES [Aadress]([AadresID]),
+  CONSTRAINT [FK_Tellimused_PakkijadID]
+    FOREIGN KEY ([PakkijadID])
+      REFERENCES [Pakkija]([Pakkijad])
+);
+
+
+
+USE Tellimused;
+GO
+
+
+INSERT INTO [Klient] ([klientID], [KlientNimi]) VALUES
+(1, 'Maxima'),
+(2, 'Selver'),
+(3, 'Rimi'),
+(4, 'Prisma');
+
+INSERT INTO [Aadress] ([AadresID], [aadres], [klientID]) VALUES
+(1, 'Mustakivi 1', 1),
+(2, 'Kivimuru 32', 2),
+(3, 'Toome 3', 1),
+(4, 'Prisli 45', 3),
+(5, 'Mustakivi 5', 4),
+(6, 'Mustamäe 16', 2);
+
+INSERT INTO [kommid] ([KommitypeID], [kommitüüp], [Field]) VALUES
+(1, 'šokolaad', NULL),
+(2, 'karamell', NULL);
+
+INSERT INTO [Kehtivus] ([KehtivID], [Kehtivusaeg], [Field]) VALUES
+(1, '2025-12-31', NULL),
+(2, '2026-06-30', NULL),
+(3, '2026-12-31', NULL),
+(4, '2027-05-31', NULL);
+
+
+INSERT INTO [komm] ([KommID], [Hind], [KehtivID], [KommNimetus], [KommitypID]) VALUES
+(1, 79, 1, 'Teekommid', 1),
+(2, 36, 2, 'Barbariss', 2),
+(3, 83, 1, 'Kometa', 1),
+(4, 83, 4, 'Kometa', 1),
+(5, 36, 3, 'Barbariss', 2),
+(6, 83, 4, 'Kometa', 1),
+(7, 40, 2, 'Vanill', 2);
+
+
+INSERT INTO [Pakkija] ([Pakkijad], [Pakkijanimi], [Pakkijaperenimi]) VALUES
+(1, 'Anna', 'Sidor'),
+(2, 'Marina', 'Ivanova'),
+(3, 'Darja', 'Tsvetkova');
+
+
+INSERT INTO [Tellimused] ([TellimuseID], [aadresID], [KommiD], [Kogus], [PakkijadID], [Tellimusekuupäev]) VALUES
+(1, 1, 2, '3 kg', 1, '2020-02-12'),
+(2, 2, 2, '13 kg', 2, '2020-02-13'),
+(3, 2, 3, '7 kg', 3, '2020-02-14'),
+(4, 3, 3, '10 kg', 2, '2020-02-15'),
+(5, 4, 2, '5 kg', 3, '2020-02-12'),
+(6, 4, 3, '2 kg', 3, '2020-02-13'),
+(7, 2, 5, '10 kg', 1, '2020-02-14'),
+(8, 5, 4, '5 kg', 1, '2020-02-15'),
+(9, 1, 5, '30 kg', 1, '2020-02-12'),
+(10, 6, 6, '15 kg', 2, '2020-02-13');
+
+
+USE Tellimused;
+GO
+
+
+SELECT * FROM [Klient];
+
+
+SELECT * FROM [Aadress];
+
+
+SELECT * FROM [kommid];
+
+
+SELECT * FROM [komm];
+
+
+SELECT * FROM [Kehtivus];
+
+SELECT * FROM [Pakkija];
+
+
+SELECT * FROM [Tellimused];
+
+USE Tellimused;
+GO
+
