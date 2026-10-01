@@ -1,0 +1,314 @@
+create database remont;
+use remont;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- Created by Redgate Data Modeler (https://datamodeler.redgate-platform.com)
+-- Last modification date: 2026-10-01 10:15:33.893
+
+-- tables
+-- Table: amet
+CREATE TABLE amet (
+    ametID int  NOT NULL IDENTITY(1, 1),
+    nimetus varchar(50)  NOT NULL,
+    CONSTRAINT amet_pk PRIMARY KEY  (ametID)
+);
+
+-- Table: ametimaaratus
+CREATE TABLE ametimaaratus (
+    ametimaaratusID int  NOT NULL IDENTITY(1, 1),
+    ametID int  NOT NULL,
+    tootajaID int  NOT NULL,
+    algus_kuupaev date  NOT NULL,
+    lopp_kuupaev date  NULL,
+    CONSTRAINT ametimaaratus_pk PRIMARY KEY  (ametimaaratusID)
+);
+
+-- Table: arve
+CREATE TABLE arve (
+    arveID int  NOT NULL IDENTITY(1, 1),
+    remonditooID int  NOT NULL,
+    kuupaev date  NOT NULL,
+    summa decimal(10,2)  NOT NULL,
+    staatus varchar(50)  NOT NULL,
+    maksmise_tahtaeg date  NULL,
+    CONSTRAINT arve_pk PRIMARY KEY  (arveID)
+);
+
+-- Table: auto
+CREATE TABLE auto (
+    regnumber varchar(15)  NOT NULL,
+    klientID int  NOT NULL,
+    mark varchar(50)  NOT NULL,
+    mudel varchar(50)  NOT NULL,
+    v_aasta int  NULL,
+    labisoit int  NULL,
+    vin_kood varchar(17)  NULL,
+    CONSTRAINT auto_pk PRIMARY KEY  (regnumber)
+);
+
+-- Table: kategooria
+CREATE TABLE kategooria (
+    kategooriaID int  NOT NULL IDENTITY(1, 1),
+    nimetus varchar(100)  NOT NULL,
+    kirjeldus text  NULL,
+    kestvus varchar(50)  NULL,
+    CONSTRAINT kategooria_pk PRIMARY KEY  (kategooriaID)
+);
+
+-- Table: klient
+CREATE TABLE klient (
+    klientID int  NOT NULL IDENTITY(1, 1),
+    nimi varchar(100)  NOT NULL,
+    telefon varchar(50)  NOT NULL,
+    e_post varchar(100)  NULL,
+    CONSTRAINT klient_pk PRIMARY KEY  (klientID)
+);
+
+-- Table: ladu
+CREATE TABLE ladu (
+    laduID int  NOT NULL IDENTITY(1, 1),
+    nimetus varchar(50)  NOT NULL,
+    aadress varchar(100)  NULL,
+    CONSTRAINT ladu_pk PRIMARY KEY  (laduID)
+);
+
+-- Table: laduvaruosa
+CREATE TABLE laduvaruosa (
+    id int  NOT NULL IDENTITY(1, 1),
+    laduID int  NOT NULL,
+    varuosaID int  NOT NULL,
+    kogus int  NOT NULL,
+    CONSTRAINT laduvaruosa_pk PRIMARY KEY  (id)
+);
+
+-- Table: remonditoo
+CREATE TABLE remonditoo (
+    remonditooID int  NOT NULL IDENTITY(1, 1),
+    auto_regnumber varchar(15)  NOT NULL,
+    klientID int  NOT NULL,
+    kategooriaID int  NOT NULL,
+    kuupaev date  NOT NULL,
+    kirjeldus text  NULL,
+    olek varchar(50)  NOT NULL,
+    CONSTRAINT remonditoo_pk PRIMARY KEY  (remonditooID)
+);
+
+-- Table: tarnevaruosa
+CREATE TABLE tarnevaruosa (
+    id int  NOT NULL IDENTITY(1, 1),
+    tarnijaID int  NOT NULL,
+    varuosaID int  NOT NULL,
+    tarne_kuupaev date  NOT NULL,
+    kogus int  NOT NULL,
+    CONSTRAINT tarnevaruosa_pk PRIMARY KEY  (id)
+);
+
+-- Table: tarnija
+CREATE TABLE tarnija (
+    tarnijaID int  NOT NULL IDENTITY(1, 1),
+    nimetus varchar(100)  NOT NULL,
+    kontakt varchar(100)  NULL,
+    aadress varchar(150)  NULL,
+    CONSTRAINT tarnija_pk PRIMARY KEY  (tarnijaID)
+);
+
+-- Table: tootaja
+CREATE TABLE tootaja (
+    tootajaID int  NOT NULL IDENTITY(1, 1),
+    nimi varchar(100)  NOT NULL,
+    isikukood varchar(11)  NULL,
+    telefon varchar(50)  NULL,
+    aadress varchar(150)  NULL,
+    CONSTRAINT tootaja_pk PRIMARY KEY  (tootajaID)
+);
+
+-- Table: tootajaRemondis
+CREATE TABLE tootajaRemondis (
+    id int  NOT NULL IDENTITY(1, 1),
+    remonditooID int  NOT NULL,
+    tootajaID int  NOT NULL,
+    roll_olek varchar(50)  NULL,
+    CONSTRAINT tootajaRemondis_pk PRIMARY KEY  (id)
+);
+
+-- Table: varuosa
+CREATE TABLE varuosa (
+    varuosaID int  NOT NULL IDENTITY(1, 1),
+    nimetus varchar(100)  NOT NULL,
+    tootja varchar(50)  NULL,
+    hind decimal(10,2)  NOT NULL,
+    laoseis int  NULL,
+    CONSTRAINT varuosa_pk PRIMARY KEY  (varuosaID)
+);
+
+-- Table: varuosaRemondis
+CREATE TABLE varuosaRemondis (
+    id int  NOT NULL IDENTITY(1, 1),
+    laduvaruosaID int  NOT NULL,
+    remonditooID int  NOT NULL,
+    kogus int  NOT NULL,
+    CONSTRAINT varuosaRemondis_pk PRIMARY KEY  (id)
+);
+
+-- foreign keys
+-- Reference: FK_0 (table: auto)
+ALTER TABLE auto ADD CONSTRAINT FK_0
+    FOREIGN KEY (klientID)
+    REFERENCES klient (klientID);
+
+-- Reference: FK_1 (table: remonditoo)
+ALTER TABLE remonditoo ADD CONSTRAINT FK_1
+    FOREIGN KEY (auto_regnumber)
+    REFERENCES auto (regnumber);
+
+-- Reference: FK_10 (table: tarnevaruosa)
+ALTER TABLE tarnevaruosa ADD CONSTRAINT FK_10
+    FOREIGN KEY (varuosaID)
+    REFERENCES varuosa (varuosaID);
+
+-- Reference: FK_11 (table: tootajaRemondis)
+ALTER TABLE tootajaRemondis ADD CONSTRAINT FK_11
+    FOREIGN KEY (remonditooID)
+    REFERENCES remonditoo (remonditooID);
+
+-- Reference: FK_12 (table: tootajaRemondis)
+ALTER TABLE tootajaRemondis ADD CONSTRAINT FK_12
+    FOREIGN KEY (tootajaID)
+    REFERENCES tootaja (tootajaID);
+
+-- Reference: FK_13 (table: ametimaaratus)
+ALTER TABLE ametimaaratus ADD CONSTRAINT FK_13
+    FOREIGN KEY (ametID)
+    REFERENCES amet (ametID);
+
+-- Reference: FK_14 (table: ametimaaratus)
+ALTER TABLE ametimaaratus ADD CONSTRAINT FK_14
+    FOREIGN KEY (tootajaID)
+    REFERENCES tootaja (tootajaID);
+
+-- Reference: FK_2 (table: remonditoo)
+ALTER TABLE remonditoo ADD CONSTRAINT FK_2
+    FOREIGN KEY (klientID)
+    REFERENCES klient (klientID);
+
+-- Reference: FK_3 (table: remonditoo)
+ALTER TABLE remonditoo ADD CONSTRAINT FK_3
+    FOREIGN KEY (kategooriaID)
+    REFERENCES kategooria (kategooriaID);
+
+-- Reference: FK_4 (table: arve)
+ALTER TABLE arve ADD CONSTRAINT FK_4
+    FOREIGN KEY (remonditooID)
+    REFERENCES remonditoo (remonditooID);
+
+-- Reference: FK_5 (table: laduvaruosa)
+ALTER TABLE laduvaruosa ADD CONSTRAINT FK_5
+    FOREIGN KEY (laduID)
+    REFERENCES ladu (laduID);
+
+-- Reference: FK_6 (table: laduvaruosa)
+ALTER TABLE laduvaruosa ADD CONSTRAINT FK_6
+    FOREIGN KEY (varuosaID)
+    REFERENCES varuosa (varuosaID);
+
+-- Reference: FK_7 (table: varuosaRemondis)
+ALTER TABLE varuosaRemondis ADD CONSTRAINT FK_7
+    FOREIGN KEY (laduvaruosaID)
+    REFERENCES laduvaruosa (id);
+
+-- Reference: FK_8 (table: varuosaRemondis)
+ALTER TABLE varuosaRemondis ADD CONSTRAINT FK_8
+    FOREIGN KEY (remonditooID)
+    REFERENCES remonditoo (remonditooID);
+
+-- Reference: FK_9 (table: tarnevaruosa)
+ALTER TABLE tarnevaruosa ADD CONSTRAINT FK_9
+    FOREIGN KEY (tarnijaID)
+    REFERENCES tarnija (tarnijaID);
+
+-- End of file.
+
+
+
+-- Шаг 1. Заполняем независимые справочники
+INSERT INTO klient (nimi, telefon, e_post) VALUES 
+('Alexey Smirnov', '+37255512345', 'alexey@gmail.com'),
+('Elena Petrova', '+37255567890', 'elena@mail.ee');
+
+INSERT INTO kategooria (nimetus, kirjeldus, kestvus) VALUES 
+('Mootori remont', 'Kapitaalne või osaline mootori remont', '2 päeva'),
+('Pidurisüsteem', 'Piduriklotside ja ketaste vahetus', '4 tundi');
+
+INSERT INTO varuosa (nimetus, tootja, hind, laoseis) VALUES 
+('Piduriklotsid', 'Brembo', 45.00, 10),
+('Mootoriõli 5W40', 'Castrol', 35.50, 25);
+
+INSERT INTO ladu (nimetus, aadress) VALUES 
+('Pealadu', 'Tallinn, Peterburi tee 1'),
+('Filiaal', 'Tallinn, Tartu mnt 100');
+
+INSERT INTO tarnija (nimetus, kontakt, aadress) VALUES 
+('AutoParts AS', 'Andrus', 'Tartu, Riia mnt 5'),
+('Global Oil OÜ', 'Margus', 'Pärnu, Tallinna mnt 12');
+
+INSERT INTO tootaja (nimi, isikukood, telefon, aadress) VALUES 
+('Ivan Ivanov', '39001012222', '+37255599988', 'Tallinn, Õismäe tee 10'),
+('Dmitri Kuznetsov', '39505053333', '+37255511122', 'Tallinn, Lasnamäe 45');
+
+INSERT INTO amet (nimetus) VALUES 
+('Mehaanik'),
+('Vanemmehaanik');
+
+
+-- Шаг 2. Заполняем таблицы первого уровня зависимости
+INSERT INTO auto (regnumber, klientID, mark, mudel, v_aasta, labisoit, vin_kood) VALUES 
+('123ABC', 1, 'BMW', '320', 2018, 150000, 'WBA1234567890ABCD'),
+('999XYZ', 2, 'Audi', 'A4', 2020, 95000, 'WAU9876543210XYZW');
+
+INSERT INTO laduvaruosa (laduID, varuosaID, kogus) VALUES 
+(1, 1, 10),
+(1, 2, 25);
+
+INSERT INTO tarnevaruosa (tarnijaID, varuosaID, tarne_kuupaev, kogus) VALUES 
+(1, 1, '2026-05-01', 15),
+(2, 2, '2026-05-02', 30);
+
+INSERT INTO ametimaaratus (ametID, tootajaID, algus_kuupaev, lopp_kuupaev) VALUES 
+(1, 1, '2023-01-15', NULL),
+(2, 2, '2021-06-10', NULL);
+
+
+-- Шаг 3. Заполняем ремонтные работы (зависят от auto, klient и kategooria)
+INSERT INTO remonditoo (auto_regnumber, klientID, kategooriaID, kuupaev, kirjeldus, olek) VALUES 
+('123ABC', 1, 2, '2026-05-10', 'Vahetada esimesed piduriklotsid', 'Tehtud'),
+('999XYZ', 2, 1, '2026-05-12', 'Õlivahetus ja mootori diagnostika', 'Pooleli');
+
+
+-- Шаг 4. Заполняем итоговые зависимые таблицы (счета, запчасти и работники в ремонте)
+INSERT INTO arve (remonditooID, kuupaev, summa, staatus, maksmise_tahtaeg) VALUES 
+(1, '2026-05-10', 95.00, 'Makstud', '2026-05-17'),
+(2, '2026-05-12', 120.50, 'Ootel', '2026-05-20');
+
+INSERT INTO varuosaRemondis (laduvaruosaID, remonditooID, kogus) VALUES 
+(1, 1, 2), 
+(2, 2, 1); 
+
+INSERT INTO tootajaRemondis (remonditooID, tootajaID, roll_olek) VALUES 
+(1, 1, 'Peamine mehaanik'),
+(2, 2, 'Diagnostik');
