@@ -1,130 +1,679 @@
-create Database opilased;
-use opilased;
+create database Treener;
+use Treener;
 
-CREATE TABLE oppilased (
-oppilase_id INT IDENTITY(1,1) PRIMARY KEY,
-nimi VARCHAR(100),
-vanus INT,
-klass VARCHAR(10) 
+
+
+
+
+
+
+
+-- --------------------------------------------------
+-- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
+-- --------------------------------------------------
+-- Date Created: 10/08/2026 13:02:23
+-- Generated from EDMX file: C:\Users\opilane\source\repos\Treener2\Treener2\Treener.edmx
+-- --------------------------------------------------
+
+SET QUOTED_IDENTIFIER OFF;
+GO
+USE [Treener];
+GO
+IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
+GO
+
+-- --------------------------------------------------
+-- Dropping existing FOREIGN KEY constraints
+-- --------------------------------------------------
+
+IF OBJECT_ID(N'[dbo].[FK_SpordiLiikmeTreeniregistrerimine]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[TreeniregistrerimineSet1] DROP CONSTRAINT [FK_SpordiLiikmeTreeniregistrerimine];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SpordiLiikmeLiikvoistluses]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[LiikvoistlusesSet] DROP CONSTRAINT [FK_SpordiLiikmeLiikvoistluses];
+GO
+IF OBJECT_ID(N'[dbo].[FK_VoistlusLiikvoistluses]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[LiikvoistlusesSet] DROP CONSTRAINT [FK_VoistlusLiikvoistluses];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SaalTreening]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[TreeningSet] DROP CONSTRAINT [FK_SaalTreening];
+GO
+IF OBJECT_ID(N'[dbo].[FK_TreenerTreening]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[TreeningSet] DROP CONSTRAINT [FK_TreenerTreening];
+GO
+IF OBJECT_ID(N'[dbo].[FK_TreeningTreeniregistrerimine]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[TreeniregistrerimineSet1] DROP CONSTRAINT [FK_TreeningTreeniregistrerimine];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SpordiLiikmeLiikmelisusePaketti]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[LiikmelisusePakettiSet] DROP CONSTRAINT [FK_SpordiLiikmeLiikmelisusePaketti];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SpordiLiikmeLiikvoistluses1]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[LiikvoistlusesSet] DROP CONSTRAINT [FK_SpordiLiikmeLiikvoistluses1];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SpordialaVoistlus]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[VoistlusSet] DROP CONSTRAINT [FK_SpordialaVoistlus];
+GO
+IF OBJECT_ID(N'[dbo].[FK_LiikvoistlusesOsalemine]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[OsalemineSet] DROP CONSTRAINT [FK_LiikvoistlusesOsalemine];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ToodeIDOst]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[OstSet] DROP CONSTRAINT [FK_ToodeIDOst];
+GO
+IF OBJECT_ID(N'[dbo].[FK_OstOstuRida]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[OstuRidaSet] DROP CONSTRAINT [FK_OstOstuRida];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ToodeIDOstuRida]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[OstuRidaSet] DROP CONSTRAINT [FK_ToodeIDOstuRida];
+GO
+
+-- --------------------------------------------------
+-- Dropping existing tables
+-- --------------------------------------------------
+
+IF OBJECT_ID(N'[dbo].[SpordiLiikmeSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SpordiLiikmeSet];
+GO
+IF OBJECT_ID(N'[dbo].[VoistlusSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[VoistlusSet];
+GO
+IF OBJECT_ID(N'[dbo].[TreeniregistrerimineSet1]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[TreeniregistrerimineSet1];
+GO
+IF OBJECT_ID(N'[dbo].[LiikmelisusePakettiSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[LiikmelisusePakettiSet];
+GO
+IF OBJECT_ID(N'[dbo].[TreenerSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[TreenerSet];
+GO
+IF OBJECT_ID(N'[dbo].[TreeningSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[TreeningSet];
+GO
+IF OBJECT_ID(N'[dbo].[SaalSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SaalSet];
+GO
+IF OBJECT_ID(N'[dbo].[LiikvoistlusesSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[LiikvoistlusesSet];
+GO
+IF OBJECT_ID(N'[dbo].[SpordialaSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[SpordialaSet];
+GO
+IF OBJECT_ID(N'[dbo].[OsalemineSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[OsalemineSet];
+GO
+IF OBJECT_ID(N'[dbo].[ToodeIDSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ToodeIDSet];
+GO
+IF OBJECT_ID(N'[dbo].[OstSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[OstSet];
+GO
+IF OBJECT_ID(N'[dbo].[OstuRidaSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[OstuRidaSet];
+GO
+
+-- --------------------------------------------------
+-- Creating all tables
+-- --------------------------------------------------
+
+-- Creating table 'SpordiLiikmeSet'
+CREATE TABLE [dbo].[SpordiLiikmeSet] (
+    [LiikID] int IDENTITY(1,1) NOT NULL,
+    [eesnimi] nvarchar(max)  NOT NULL,
+    [perekonnanimi] nvarchar(max)  NOT NULL,
+    [sunniaeg] datetime  NULL,
+    [epost] nvarchar(max)  NULL,
+    [telefonnumber] nvarchar(max)  NULL
 );
+GO
 
-INSERT INTO oppilased (nimi, vanus, klass)
-VALUES
-('Mari Tamm',   14, '8A'),
-('J�ri M�gi',   12, '6B'),
-('Liisa Kask',  16, '10A'),
-('Peeter Lepp', 13, '7A');
-
-SELECT * FROM oppilased;
-
-
-CREATE TABLE logi (
-logi_id    INT IDENTITY(1,1) PRIMARY KEY,
-kuup�ev    DATETIME DEFAULT GETDATE(),
-tegevus    VARCHAR(255),
-kasutaja   VARCHAR(100)
+-- Creating table 'VoistlusSet'
+CREATE TABLE [dbo].[VoistlusSet] (
+    [VoistlusID] int IDENTITY(1,1) NOT NULL,
+    [nimi] nvarchar(max)  NOT NULL,
+    [kuupaev] datetime  NOT NULL,
+    [asukoht] nvarchar(max)  NULL,
+    [kirjeldus] nvarchar(max)  NULL,
+    [SpordialaID] int  NOT NULL,
+    [Spordiala_SpordialaID] int  NOT NULL
 );
+GO
 
-
-CREATE TABLE hinded (
-hinneID INT IDENTITY(1,1) PRIMARY KEY,
-opilase_id INT FOREIGN KEY REFERENCES oppilased(oppilase_id),
-aine VARCHAR(50),
-hinne INT,
-kuupaev DATE
+-- Creating table 'TreeniregistrerimineSet1'
+CREATE TABLE [dbo].[TreeniregistrerimineSet1] (
+    [RegistrerimineID] int IDENTITY(1,1) NOT NULL,
+    [LiikID] int  NOT NULL,
+    [TreeningID] int  NOT NULL,
+    [registreriminekuupaev] datetime  NOT NULL,
+    [Status] nvarchar(max)  NOT NULL,
+    [SpordiLiikme_LiikID] int  NOT NULL,
+    [Treening_TreeningID] int  NOT NULL
 );
+GO
 
-select * from hinded;
+-- Creating table 'LiikmelisusePakettiSet'
+CREATE TABLE [dbo].[LiikmelisusePakettiSet] (
+    [PaketID] int IDENTITY(1,1) NOT NULL,
+    [nimi] nvarchar(max)  NULL,
+    [kuutasu] decimal(18,2)  NOT NULL,
+    [kirjeldus] nvarchar(max)  NULL,
+    [LiikID] int  NOT NULL,
+    [SpordiLiikme_LiikID] int  NOT NULL
+);
+GO
 
-INSERT INTO hinded (opilase_id, aine, hinne, kuupaev)
-VALUES
-(2, 'Matemaatika', 5, '2026-05-20'),
-(2, 'Eesti keel',   4, '2026-05-21'),
-(3, 'Inglise keel', 5, '2026-05-19'),
-(3, 'Matemaatika',  3, '2026-05-22'),
-(4, 'F��sika',      4, '2026-05-20'),
-(4, 'Ajalugu',      5, '2026-05-25');
+-- Creating table 'TreenerSet'
+CREATE TABLE [dbo].[TreenerSet] (
+    [TreenerID] int IDENTITY(1,1) NOT NULL,
+    [nimi] nvarchar(max)  NOT NULL,
+    [epost] nvarchar(max)  NULL,
+    [telefon] nvarchar(max)  NULL,
+    [eriala] nvarchar(max)  NULL
+);
+GO
 
-SELECT * FROM hinded;
+-- Creating table 'TreeningSet'
+CREATE TABLE [dbo].[TreeningSet] (
+    [TreeningID] int IDENTITY(1,1) NOT NULL,
+    [nimi] nvarchar(max)  NOT NULL,
+    [kirjeldus] nvarchar(max)  NULL,
+    [kestus] nvarchar(max)  NULL,
+    [raskustate] nvarchar(max)  NULL,
+    [aeg] time  NOT NULL,
+    [SaalID] int  NOT NULL,
+    [TreenerID] int  NULL,
+    [Saal_SaalID] int  NOT NULL,
+    [Treener_TreenerID] int  NOT NULL
+);
+GO
+
+-- Creating table 'SaalSet'
+CREATE TABLE [dbo].[SaalSet] (
+    [SaalID] int IDENTITY(1,1) NOT NULL,
+    [number] nvarchar(max)  NOT NULL,
+    [nimi] nvarchar(max)  NULL,
+    [maksimalnemahutus] int  NOT NULL
+);
+GO
+
+-- Creating table 'LiikvoistlusesSet'
+CREATE TABLE [dbo].[LiikvoistlusesSet] (
+    [LiikvoistlusedID] int IDENTITY(1,1) NOT NULL,
+    [LiikID] int  NOT NULL,
+    [VoistlusID] int  NOT NULL,
+    [SpordiLiikme_LiikID] int  NOT NULL,
+    [Voistlus_VoistlusID] int  NOT NULL,
+    [SpordiLiikme1_LiikID] int  NOT NULL
+);
+GO
+
+-- Creating table 'SpordialaSet'
+CREATE TABLE [dbo].[SpordialaSet] (
+    [SpordialaID] int IDENTITY(1,1) NOT NULL,
+    [nimi] nvarchar(max)  NOT NULL,
+    [kirjeldus] nvarchar(max)  NULL
+);
+GO
+
+-- Creating table 'OsalemineSet'
+CREATE TABLE [dbo].[OsalemineSet] (
+    [OsalemineID] int IDENTITY(1,1) NOT NULL,
+    [LiikvõistlusedID] int  NOT NULL,
+    [tulemus] nvarchar(max)  NULL,
+    [koht] nvarchar(max)  NULL,
+    [Liikvoistluses_LiikvoistlusedID] int  NOT NULL
+);
+GO
+
+-- Creating table 'ToodeIDSet'
+CREATE TABLE [dbo].[ToodeIDSet] (
+    [ToodeId] int IDENTITY(1,1) NOT NULL,
+    [nimi] nvarchar(max)  NOT NULL,
+    [hind] decimal(18,2)  NOT NULL,
+    [kirjeldus] nvarchar(max)  NULL,
+    [laoseis] int  NOT NULL
+);
+GO
+
+-- Creating table 'OstSet'
+CREATE TABLE [dbo].[OstSet] (
+    [OstID] int IDENTITY(1,1) NOT NULL,
+    [LiikID] int  NOT NULL,
+    [ToodeID] int  NOT NULL,
+    [kuupaev] datetime  NOT NULL,
+    [kogus] int  NOT NULL,
+    [ToodeID1_ToodeId] int  NOT NULL
+);
+GO
+
+-- Creating table 'OstuRidaSet'
+CREATE TABLE [dbo].[OstuRidaSet] (
+    [OsturidaID] int IDENTITY(1,1) NOT NULL,
+    [OstID] int  NOT NULL,
+    [ToodeID] int  NOT NULL,
+    [kogus] int  NOT NULL,
+    [Ost_OstID] int  NOT NULL,
+    [ToodeID1_ToodeId] int  NOT NULL
+);
+GO
+
+-- --------------------------------------------------
+-- Creating all PRIMARY KEY constraints
+-- --------------------------------------------------
+
+-- Creating primary key on [LiikID] in table 'SpordiLiikmeSet'
+ALTER TABLE [dbo].[SpordiLiikmeSet]
+ADD CONSTRAINT [PK_SpordiLiikmeSet]
+    PRIMARY KEY CLUSTERED ([LiikID] ASC);
+GO
+
+-- Creating primary key on [VoistlusID] in table 'VoistlusSet'
+ALTER TABLE [dbo].[VoistlusSet]
+ADD CONSTRAINT [PK_VoistlusSet]
+    PRIMARY KEY CLUSTERED ([VoistlusID] ASC);
+GO
+
+-- Creating primary key on [RegistrerimineID] in table 'TreeniregistrerimineSet1'
+ALTER TABLE [dbo].[TreeniregistrerimineSet1]
+ADD CONSTRAINT [PK_TreeniregistrerimineSet1]
+    PRIMARY KEY CLUSTERED ([RegistrerimineID] ASC);
+GO
+
+-- Creating primary key on [PaketID] in table 'LiikmelisusePakettiSet'
+ALTER TABLE [dbo].[LiikmelisusePakettiSet]
+ADD CONSTRAINT [PK_LiikmelisusePakettiSet]
+    PRIMARY KEY CLUSTERED ([PaketID] ASC);
+GO
+
+-- Creating primary key on [TreenerID] in table 'TreenerSet'
+ALTER TABLE [dbo].[TreenerSet]
+ADD CONSTRAINT [PK_TreenerSet]
+    PRIMARY KEY CLUSTERED ([TreenerID] ASC);
+GO
+
+-- Creating primary key on [TreeningID] in table 'TreeningSet'
+ALTER TABLE [dbo].[TreeningSet]
+ADD CONSTRAINT [PK_TreeningSet]
+    PRIMARY KEY CLUSTERED ([TreeningID] ASC);
+GO
+
+-- Creating primary key on [SaalID] in table 'SaalSet'
+ALTER TABLE [dbo].[SaalSet]
+ADD CONSTRAINT [PK_SaalSet]
+    PRIMARY KEY CLUSTERED ([SaalID] ASC);
+GO
+
+-- Creating primary key on [LiikvoistlusedID] in table 'LiikvoistlusesSet'
+ALTER TABLE [dbo].[LiikvoistlusesSet]
+ADD CONSTRAINT [PK_LiikvoistlusesSet]
+    PRIMARY KEY CLUSTERED ([LiikvoistlusedID] ASC);
+GO
+
+-- Creating primary key on [SpordialaID] in table 'SpordialaSet'
+ALTER TABLE [dbo].[SpordialaSet]
+ADD CONSTRAINT [PK_SpordialaSet]
+    PRIMARY KEY CLUSTERED ([SpordialaID] ASC);
+GO
+
+-- Creating primary key on [OsalemineID] in table 'OsalemineSet'
+ALTER TABLE [dbo].[OsalemineSet]
+ADD CONSTRAINT [PK_OsalemineSet]
+    PRIMARY KEY CLUSTERED ([OsalemineID] ASC);
+GO
+
+-- Creating primary key on [ToodeId] in table 'ToodeIDSet'
+ALTER TABLE [dbo].[ToodeIDSet]
+ADD CONSTRAINT [PK_ToodeIDSet]
+    PRIMARY KEY CLUSTERED ([ToodeId] ASC);
+GO
+
+-- Creating primary key on [OstID] in table 'OstSet'
+ALTER TABLE [dbo].[OstSet]
+ADD CONSTRAINT [PK_OstSet]
+    PRIMARY KEY CLUSTERED ([OstID] ASC);
+GO
+
+-- Creating primary key on [OsturidaID] in table 'OstuRidaSet'
+ALTER TABLE [dbo].[OstuRidaSet]
+ADD CONSTRAINT [PK_OstuRidaSet]
+    PRIMARY KEY CLUSTERED ([OsturidaID] ASC);
+GO
+
+-- --------------------------------------------------
+-- Creating all FOREIGN KEY constraints
+-- --------------------------------------------------
+
+-- Creating foreign key on [SpordiLiikme_LiikID] in table 'TreeniregistrerimineSet1'
+ALTER TABLE [dbo].[TreeniregistrerimineSet1]
+ADD CONSTRAINT [FK_SpordiLiikmeTreeniregistrerimine]
+    FOREIGN KEY ([SpordiLiikme_LiikID])
+    REFERENCES [dbo].[SpordiLiikmeSet]
+        ([LiikID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SpordiLiikmeTreeniregistrerimine'
+CREATE INDEX [IX_FK_SpordiLiikmeTreeniregistrerimine]
+ON [dbo].[TreeniregistrerimineSet1]
+    ([SpordiLiikme_LiikID]);
+GO
+
+-- Creating foreign key on [SpordiLiikme_LiikID] in table 'LiikvoistlusesSet'
+ALTER TABLE [dbo].[LiikvoistlusesSet]
+ADD CONSTRAINT [FK_SpordiLiikmeLiikvoistluses]
+    FOREIGN KEY ([SpordiLiikme_LiikID])
+    REFERENCES [dbo].[SpordiLiikmeSet]
+        ([LiikID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SpordiLiikmeLiikvoistluses'
+CREATE INDEX [IX_FK_SpordiLiikmeLiikvoistluses]
+ON [dbo].[LiikvoistlusesSet]
+    ([SpordiLiikme_LiikID]);
+GO
+
+-- Creating foreign key on [Voistlus_VoistlusID] in table 'LiikvoistlusesSet'
+ALTER TABLE [dbo].[LiikvoistlusesSet]
+ADD CONSTRAINT [FK_VoistlusLiikvoistluses]
+    FOREIGN KEY ([Voistlus_VoistlusID])
+    REFERENCES [dbo].[VoistlusSet]
+        ([VoistlusID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_VoistlusLiikvoistluses'
+CREATE INDEX [IX_FK_VoistlusLiikvoistluses]
+ON [dbo].[LiikvoistlusesSet]
+    ([Voistlus_VoistlusID]);
+GO
+
+-- Creating foreign key on [Saal_SaalID] in table 'TreeningSet'
+ALTER TABLE [dbo].[TreeningSet]
+ADD CONSTRAINT [FK_SaalTreening]
+    FOREIGN KEY ([Saal_SaalID])
+    REFERENCES [dbo].[SaalSet]
+        ([SaalID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SaalTreening'
+CREATE INDEX [IX_FK_SaalTreening]
+ON [dbo].[TreeningSet]
+    ([Saal_SaalID]);
+GO
+
+-- Creating foreign key on [Treener_TreenerID] in table 'TreeningSet'
+ALTER TABLE [dbo].[TreeningSet]
+ADD CONSTRAINT [FK_TreenerTreening]
+    FOREIGN KEY ([Treener_TreenerID])
+    REFERENCES [dbo].[TreenerSet]
+        ([TreenerID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_TreenerTreening'
+CREATE INDEX [IX_FK_TreenerTreening]
+ON [dbo].[TreeningSet]
+    ([Treener_TreenerID]);
+GO
+
+-- Creating foreign key on [Treening_TreeningID] in table 'TreeniregistrerimineSet1'
+ALTER TABLE [dbo].[TreeniregistrerimineSet1]
+ADD CONSTRAINT [FK_TreeningTreeniregistrerimine]
+    FOREIGN KEY ([Treening_TreeningID])
+    REFERENCES [dbo].[TreeningSet]
+        ([TreeningID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_TreeningTreeniregistrerimine'
+CREATE INDEX [IX_FK_TreeningTreeniregistrerimine]
+ON [dbo].[TreeniregistrerimineSet1]
+    ([Treening_TreeningID]);
+GO
+
+-- Creating foreign key on [SpordiLiikme_LiikID] in table 'LiikmelisusePakettiSet'
+ALTER TABLE [dbo].[LiikmelisusePakettiSet]
+ADD CONSTRAINT [FK_SpordiLiikmeLiikmelisusePaketti]
+    FOREIGN KEY ([SpordiLiikme_LiikID])
+    REFERENCES [dbo].[SpordiLiikmeSet]
+        ([LiikID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SpordiLiikmeLiikmelisusePaketti'
+CREATE INDEX [IX_FK_SpordiLiikmeLiikmelisusePaketti]
+ON [dbo].[LiikmelisusePakettiSet]
+    ([SpordiLiikme_LiikID]);
+GO
+
+-- Creating foreign key on [SpordiLiikme1_LiikID] in table 'LiikvoistlusesSet'
+ALTER TABLE [dbo].[LiikvoistlusesSet]
+ADD CONSTRAINT [FK_SpordiLiikmeLiikvoistluses1]
+    FOREIGN KEY ([SpordiLiikme1_LiikID])
+    REFERENCES [dbo].[SpordiLiikmeSet]
+        ([LiikID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SpordiLiikmeLiikvoistluses1'
+CREATE INDEX [IX_FK_SpordiLiikmeLiikvoistluses1]
+ON [dbo].[LiikvoistlusesSet]
+    ([SpordiLiikme1_LiikID]);
+GO
+
+-- Creating foreign key on [Spordiala_SpordialaID] in table 'VoistlusSet'
+ALTER TABLE [dbo].[VoistlusSet]
+ADD CONSTRAINT [FK_SpordialaVoistlus]
+    FOREIGN KEY ([Spordiala_SpordialaID])
+    REFERENCES [dbo].[SpordialaSet]
+        ([SpordialaID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SpordialaVoistlus'
+CREATE INDEX [IX_FK_SpordialaVoistlus]
+ON [dbo].[VoistlusSet]
+    ([Spordiala_SpordialaID]);
+GO
+
+-- Creating foreign key on [Liikvoistluses_LiikvoistlusedID] in table 'OsalemineSet'
+ALTER TABLE [dbo].[OsalemineSet]
+ADD CONSTRAINT [FK_LiikvoistlusesOsalemine]
+    FOREIGN KEY ([Liikvoistluses_LiikvoistlusedID])
+    REFERENCES [dbo].[LiikvoistlusesSet]
+        ([LiikvoistlusedID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_LiikvoistlusesOsalemine'
+CREATE INDEX [IX_FK_LiikvoistlusesOsalemine]
+ON [dbo].[OsalemineSet]
+    ([Liikvoistluses_LiikvoistlusedID]);
+GO
+
+-- Creating foreign key on [ToodeID1_ToodeId] in table 'OstSet'
+ALTER TABLE [dbo].[OstSet]
+ADD CONSTRAINT [FK_ToodeIDOst]
+    FOREIGN KEY ([ToodeID1_ToodeId])
+    REFERENCES [dbo].[ToodeIDSet]
+        ([ToodeId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ToodeIDOst'
+CREATE INDEX [IX_FK_ToodeIDOst]
+ON [dbo].[OstSet]
+    ([ToodeID1_ToodeId]);
+GO
+
+-- Creating foreign key on [Ost_OstID] in table 'OstuRidaSet'
+ALTER TABLE [dbo].[OstuRidaSet]
+ADD CONSTRAINT [FK_OstOstuRida]
+    FOREIGN KEY ([Ost_OstID])
+    REFERENCES [dbo].[OstSet]
+        ([OstID])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_OstOstuRida'
+CREATE INDEX [IX_FK_OstOstuRida]
+ON [dbo].[OstuRidaSet]
+    ([Ost_OstID]);
+GO
+
+-- Creating foreign key on [ToodeID1_ToodeId] in table 'OstuRidaSet'
+ALTER TABLE [dbo].[OstuRidaSet]
+ADD CONSTRAINT [FK_ToodeIDOstuRida]
+    FOREIGN KEY ([ToodeID1_ToodeId])
+    REFERENCES [dbo].[ToodeIDSet]
+        ([ToodeId])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ToodeIDOstuRida'
+CREATE INDEX [IX_FK_ToodeIDOstuRida]
+ON [dbo].[OstuRidaSet]
+    ([ToodeID1_ToodeId]);
+GO
+
+-- --------------------------------------------------
+-- Script has ended
+-- --------------------------------------------------
 
 
-CREATE TRIGGER oppilaseLisamine
-ON oppilased 
-FOR INSERT
-AS
-INSERT INTO logi(kuup�ev, tegevus, kasutaja)
-SELECT
-GETDATE(),               
-'on tehtud INSERT k�sk', 
-inserted.nimi            
-FROM inserted;
-
-INSERT INTO oppilased (nimi, vanus, klass) 
-VALUES ('Martin Tamm', 16, '10B');
-
-
-SELECT * FROM logi;
-
-select * from oppilased;
-
-
-
-
-
-CREATE TRIGGER oppilaseKustutamine
-ON oppilased 
-FOR DELETE
-AS
-INSERT INTO logi(kuup�ev, tegevus, kasutaja)
-SELECT
-GETDATE(),               
-'on tehtud DELETE k�sk', 
-CONCAT('�pilane: ', deleted.nimi, ', vanus: ', deleted.vanus, ', klass: ', deleted.klass) 
-FROM deleted;
-
-select * from oppilased;
-DELETE FROM oppilased 
-WHERE nimi = 'Martin Tamm';
-
-
-SELECT * FROM logi;
-
-
-
-CREATE TRIGGER oppilaseUuendamine
-ON oppilased 
-FOR UPDATE
-AS
-INSERT INTO logi (kuup�ev, tegevus, kasutaja)
-SELECT
-GETDATE(),               
-'on tehtud UPDATE k�sk', 
-CONCAT(
-'vanad andmed - nimi: ', deleted.nimi, ', vanus: ', deleted.vanus, ', klass: ', deleted.klass,
-' uued andmed - nimi: ', inserted.nimi, ', vanus: ', inserted.vanus, ', klass: ', inserted.klass
-)                        
-FROM deleted
-INNER JOIN inserted
-ON deleted.oppilase_id = inserted.oppilase_id;
-
-UPDATE oppilased
-SET vanus = 13, klass = '7B'
-WHERE nimi = 'Anna Kivi';
-
-select * from oppilased;
-
-SELECT * FROM logi;
-
-
-SELECT * FROM logi;
 
 
 
 
 
 
+USE [Treener];
+GO
+
+-- 1. Заполняем независимые таблицы-справочники
+
+-- Залы
+INSERT INTO [dbo].[SaalSet] ([number], [nimi], [maksimalnemahutus]) VALUES 
+(N'101', N'Suur Saal', 50),
+(N'102', N'Väike Saal', 20),
+(N'201', N'Jõusaal', 30);
+GO
+
+-- Тренеры
+INSERT INTO [dbo].[TreenerSet] ([nimi], [epost], [telefon], [eriala]) VALUES 
+(N'Alexey Ivanov', N'alexey@treener.ee', N'+37255512345', N'Korvpall'),
+(N'Maria Tamm', N'maria@treener.ee', N'+37255554321', N'Fitness'),
+(N'Jüri Kuusk', N'juri@treener.ee', N'+37255598765', N'Ujumine');
+GO
+
+-- Spordiala (Виды спорта)
+INSERT INTO [dbo].[SpordialaSet] ([nimi], [kirjeldus]) VALUES 
+(N'Korvpall', N'Meeskonnamäng korviga'),
+(N'Ujumine', N'Veekeskuse alad');
+GO
+
+-- SpordiLiikmeSet (Спортсмены / Участники)
+INSERT INTO [dbo].[SpordiLiikmeSet] ([eesnimi], [perekonnanimi], [sunniaeg], [epost], [telefonnumber]) VALUES 
+(N'Damian', N'Rud', '2010-05-15', N'damian@opilane.ee', N'+37251111111'),
+(N'Maksim', N'Petrov', '2009-08-20', N'maksim@opilane.ee', N'+37252222222'),
+(N'Anna', N'Kova', '2011-01-10', N'anna@opilane.ee', N'+37253333333');
+GO
+
+-- Товары (ToodeIDSet)
+INSERT INTO [dbo].[ToodeIDSet] ([nimi], [hind], [kirjeldus], [laoseis]) VALUES 
+(N'Vesi 0.5L', 1.50, N'Jook', 100),
+(N'Proteiinibatoon', 2.50, N'Toit', 50),
+(N'Spordisärk', 20.00, N'Riietus', 15);
+GO
 
 
+-- 2. Заполняем таблицы со связями (FK)
 
-GRANT SELECT, INSERT, UPDATE, DELETE ON oppilased TO User1;
-GRANT SELECT, INSERT, UPDATE, DELETE ON hinded TO User1;
+-- TreeningSet (Тренировки)
+-- Учитываем колонки Saal_SaalID и Treener_TreenerID
+INSERT INTO [dbo].[TreeningSet] ([nimi], [kirjeldus], [kestus], [raskustate], [aeg], [SaalID], [TreenerID], [Saal_SaalID], [Treener_TreenerID]) VALUES 
+(N'Korvpalli trenn', N'Põhitrenn', N'1.5h', N'Keskmine', '16:00:00', 1, 1, 1, 1),
+(N'Fitness', N'Aeroobika', N'1h', N'Kõrge', '18:00:00', 2, 2, 2, 2);
+GO
+
+-- VoistlusSet (Соревнования)
+INSERT INTO [dbo].[VoistlusSet] ([nimi], [kuupaev], [asukoht], [kirjeldus], [SpordialaID], [Spordiala_SpordialaID]) VALUES 
+(N'Tallinna Karikas', '2026-05-10', N'Tallinn', N'Linna meistrivõistlused', 1, 1);
+GO
+
+-- TreeniregistrerimineSet1 (Регистрация на тренировки)
+INSERT INTO [dbo].[TreeniregistrerimineSet1] ([LiikID], [TreeningID], [registreriminekuupaev], [Status], [SpordiLiikme_LiikID], [Treening_TreeningID]) VALUES 
+(1, 1, '2026-10-01', N'Aktiivne', 1, 1),
+(2, 1, '2026-10-02', N'Aktiivne', 2, 1);
+GO
+
+-- LiikmelisusePakettiSet (Абонементы)
+INSERT INTO [dbo].[LiikmelisusePakettiSet] ([nimi], [kuutasu], [kirjeldus], [LiikID], [SpordiLiikme_LiikID]) VALUES 
+(N'Täispakett', 45.00, N'Piiramatu külastus', 1, 1);
+GO
+
+-- LiikvoistlusesSet (Участие в соревнованиях)
+INSERT INTO [dbo].[LiikvoistlusesSet] ([LiikID], [VoistlusID], [SpordiLiikme_LiikID], [Voistlus_VoistlusID], [SpordiLiikme1_LiikID]) VALUES 
+(1, 1, 1, 1, 1);
+GO
+
+-- OsalemineSet
+INSERT INTO [dbo].[OsalemineSet] ([LiikvõistlusedID], [tulemus], [koht], [Liikvoistluses_LiikvoistlusedID]) VALUES 
+(1, N'10 punkti', N'1. koht', 1);
+GO
+
+-- OstSet (Покупки)
+INSERT INTO [dbo].[OstSet] ([LiikID], [ToodeID], [kuupaev], [kogus], [ToodeID1_ToodeId]) VALUES 
+(1, 1, '2026-10-05', 2, 1);
+GO
+
+-- OstuRidaSet (Строки покупок)
+INSERT INTO [dbo].[OstuRidaSet] ([OstID], [ToodeID], [kogus], [Ost_OstID], [ToodeID1_ToodeId]) VALUES 
+(1, 1, 2, 1, 1);
+GO
+
+
+USE [Treener];
+GO
+
+-- 1. Спортсмены / Участники
+SELECT * FROM [dbo].[SpordiLiikmeSet];
+
+-- 2. Соревнования
+SELECT * FROM [dbo].[VoistlusSet];
+
+-- 3. Регистрации на тренировки
+SELECT * FROM [dbo].[TreeniregistrerimineSet1];
+
+-- 4. Абонементы (пакеты)
+SELECT * FROM [dbo].[LiikmelisusePakettiSet];
+
+-- 5. Тренеры
+SELECT * FROM [dbo].[TreenerSet];
+
+-- 6. Тренировки
+SELECT * FROM [dbo].[TreeningSet];
+
+-- 7. Залы
+SELECT * FROM [dbo].[SaalSet];
+
+-- 8. Участие в соревнованиях (связка)
+SELECT * FROM [dbo].[LiikvoistlusesSet];
+
+-- 9. Виды спорта
+SELECT * FROM [dbo].[SpordialaSet];
+
+-- 10. Результаты участия
+SELECT * FROM [dbo].[OsalemineSet];
+
+-- 11. Товары
+SELECT * FROM [dbo].[ToodeIDSet];
+
+-- 12. Покупки
+SELECT * FROM [dbo].[OstSet];
+
+-- 13. Строки покупок
+SELECT * FROM [dbo].[OstuRidaSet];
+GO
+
+
