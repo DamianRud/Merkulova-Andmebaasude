@@ -539,3 +539,141 @@ GO
 -- --------------------------------------------------
 -- Script has ended
 -- --------------------------------------------------
+
+
+
+
+
+
+
+
+USE [Treener];
+GO
+
+-- 1. Заполняем независимые таблицы-справочники
+
+-- Залы
+INSERT INTO [dbo].[SaalSet] ([number], [nimi], [maksimalnemahutus]) VALUES 
+(N'101', N'Suur Saal', 50),
+(N'102', N'Väike Saal', 20),
+(N'201', N'Jõusaal', 30);
+GO
+
+-- Тренеры
+INSERT INTO [dbo].[TreenerSet] ([nimi], [epost], [telefon], [eriala]) VALUES 
+(N'Alexey Ivanov', N'alexey@treener.ee', N'+37255512345', N'Korvpall'),
+(N'Maria Tamm', N'maria@treener.ee', N'+37255554321', N'Fitness'),
+(N'Jüri Kuusk', N'juri@treener.ee', N'+37255598765', N'Ujumine');
+GO
+
+-- Spordiala (Виды спорта)
+INSERT INTO [dbo].[SpordialaSet] ([nimi], [kirjeldus]) VALUES 
+(N'Korvpall', N'Meeskonnamäng korviga'),
+(N'Ujumine', N'Veekeskuse alad');
+GO
+
+-- SpordiLiikmeSet (Спортсмены / Участники)
+INSERT INTO [dbo].[SpordiLiikmeSet] ([eesnimi], [perekonnanimi], [sunniaeg], [epost], [telefonnumber]) VALUES 
+(N'Damian', N'Rud', '2010-05-15', N'damian@opilane.ee', N'+37251111111'),
+(N'Maksim', N'Petrov', '2009-08-20', N'maksim@opilane.ee', N'+37252222222'),
+(N'Anna', N'Kova', '2011-01-10', N'anna@opilane.ee', N'+37253333333');
+GO
+
+-- Товары (ToodeIDSet)
+INSERT INTO [dbo].[ToodeIDSet] ([nimi], [hind], [kirjeldus], [laoseis]) VALUES 
+(N'Vesi 0.5L', 1.50, N'Jook', 100),
+(N'Proteiinibatoon', 2.50, N'Toit', 50),
+(N'Spordisärk', 20.00, N'Riietus', 15);
+GO
+
+
+-- 2. Заполняем таблицы со связями (FK)
+
+-- TreeningSet (Тренировки)
+-- Учитываем колонки Saal_SaalID и Treener_TreenerID
+INSERT INTO [dbo].[TreeningSet] ([nimi], [kirjeldus], [kestus], [raskustate], [aeg], [SaalID], [TreenerID], [Saal_SaalID], [Treener_TreenerID]) VALUES 
+(N'Korvpalli trenn', N'Põhitrenn', N'1.5h', N'Keskmine', '16:00:00', 1, 1, 1, 1),
+(N'Fitness', N'Aeroobika', N'1h', N'Kõrge', '18:00:00', 2, 2, 2, 2);
+GO
+
+-- VoistlusSet (Соревнования)
+INSERT INTO [dbo].[VoistlusSet] ([nimi], [kuupaev], [asukoht], [kirjeldus], [SpordialaID], [Spordiala_SpordialaID]) VALUES 
+(N'Tallinna Karikas', '2026-05-10', N'Tallinn', N'Linna meistrivõistlused', 1, 1);
+GO
+
+-- TreeniregistrerimineSet1 (Регистрация на тренировки)
+INSERT INTO [dbo].[TreeniregistrerimineSet1] ([LiikID], [TreeningID], [registreriminekuupaev], [Status], [SpordiLiikme_LiikID], [Treening_TreeningID]) VALUES 
+(1, 1, '2026-10-01', N'Aktiivne', 1, 1),
+(2, 1, '2026-10-02', N'Aktiivne', 2, 1);
+GO
+
+-- LiikmelisusePakettiSet (Абонементы)
+INSERT INTO [dbo].[LiikmelisusePakettiSet] ([nimi], [kuutasu], [kirjeldus], [LiikID], [SpordiLiikme_LiikID]) VALUES 
+(N'Täispakett', 45.00, N'Piiramatu külastus', 1, 1);
+GO
+
+-- LiikvoistlusesSet (Участие в соревнованиях)
+INSERT INTO [dbo].[LiikvoistlusesSet] ([LiikID], [VoistlusID], [SpordiLiikme_LiikID], [Voistlus_VoistlusID], [SpordiLiikme1_LiikID]) VALUES 
+(1, 1, 1, 1, 1);
+GO
+
+-- OsalemineSet
+INSERT INTO [dbo].[OsalemineSet] ([LiikvõistlusedID], [tulemus], [koht], [Liikvoistluses_LiikvoistlusedID]) VALUES 
+(1, N'10 punkti', N'1. koht', 1);
+GO
+
+-- OstSet (Покупки)
+INSERT INTO [dbo].[OstSet] ([LiikID], [ToodeID], [kuupaev], [kogus], [ToodeID1_ToodeId]) VALUES 
+(1, 1, '2026-10-05', 2, 1);
+GO
+
+-- OstuRidaSet (Строки покупок)
+INSERT INTO [dbo].[OstuRidaSet] ([OstID], [ToodeID], [kogus], [Ost_OstID], [ToodeID1_ToodeId]) VALUES 
+(1, 1, 2, 1, 1);
+GO
+
+
+USE [Treener];
+GO
+
+-- 1. Спортсмены / Участники
+SELECT * FROM [dbo].[SpordiLiikmeSet];
+
+-- 2. Соревнования
+SELECT * FROM [dbo].[VoistlusSet];
+
+-- 3. Регистрации на тренировки
+SELECT * FROM [dbo].[TreeniregistrerimineSet1];
+
+-- 4. Абонементы (пакеты)
+SELECT * FROM [dbo].[LiikmelisusePakettiSet];
+
+-- 5. Тренеры
+SELECT * FROM [dbo].[TreenerSet];
+
+-- 6. Тренировки
+SELECT * FROM [dbo].[TreeningSet];
+
+-- 7. Залы
+SELECT * FROM [dbo].[SaalSet];
+
+-- 8. Участие в соревнованиях (связка)
+SELECT * FROM [dbo].[LiikvoistlusesSet];
+
+-- 9. Виды спорта
+SELECT * FROM [dbo].[SpordialaSet];
+
+-- 10. Результаты участия
+SELECT * FROM [dbo].[OsalemineSet];
+
+-- 11. Товары
+SELECT * FROM [dbo].[ToodeIDSet];
+
+-- 12. Покупки
+SELECT * FROM [dbo].[OstSet];
+
+-- 13. Строки покупок
+SELECT * FROM [dbo].[OstuRidaSet];
+GO
+
+
